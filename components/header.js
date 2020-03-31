@@ -1,17 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Login from './components/login'
 
-export default function App() {
+export default function Header() {
   return (
     <View style={styles.container}>
-      <Login/>
+      <Text style={styles.text}>IDF Carpool</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  text:{
+    fontSize: 40,
+  }
 });
