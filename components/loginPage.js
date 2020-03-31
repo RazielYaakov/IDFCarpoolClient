@@ -6,7 +6,6 @@ import LoginForm from './loginForm'
 export default function LoginPage() {
   return (
     <View style={styles.container}>
-      <Header/>
       <LoginForm />
     </View>
   );
