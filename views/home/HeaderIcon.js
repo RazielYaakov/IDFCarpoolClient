@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import styled from 'styled-components';
-import {HebboText} from '../../components/text/HebboText';
+import {HeeboText} from '../../components/HeeboText';
 
 const styles = StyleSheet.create({
   tinyLogo: {
@@ -34,11 +34,12 @@ const HeaderIcon = () => {
             style={styles.tinyLogo}
             source={require('../../assets/images/Icon.png')}
         />
-        <HebboText style={styles.name} isBold={true}> IDF Carpool</HebboText>
-        <HebboText style={styles.header}>הכביש הזה מתחיל כאן
-        </HebboText>
+        <HeeboText style={styles.name} isBold={true}> IDF Carpool</HeeboText>
+        <HeeboText style={styles.header}>הכביש הזה מתחיל כאן
+        </HeeboText>
       </View>
   );
 };
 
 export default HeaderIcon;
+

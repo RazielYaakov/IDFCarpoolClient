@@ -10,14 +10,15 @@ import {
   Item,
   Label,
 } from 'native-base';
-import {HebboText} from '../../components/text/HebboText';
+import {HeeboText} from '../../components/HeeboText';
 import {StyleSheet, Alert} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 
-const CardForm = ({navigation}) => {
-  const {register, setValue, handleSubmit, errors} = useForm();
+const CardForm = ({ navigation }) => {
+  const { register, setValue, handleSubmit, errors } = useForm();
   const onSubmit = data => {
     Alert.alert('Form Data', JSON.stringify(data));
+    navigation.navigate('TabNavigator');
   };
 
   return (
@@ -50,7 +51,7 @@ const CardForm = ({navigation}) => {
           <Body>
             <Button iconRight block
                     onPress={handleSubmit(onSubmit)}>
-              <HebboText>התחבר</HebboText>
+              <HeeboText>התחבר</HeeboText>
               <Icon name='arrow-forward'/>
             </Button>
           </Body>
