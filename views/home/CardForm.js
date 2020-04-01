@@ -18,6 +18,7 @@ const CardForm = ({navigation}) => {
   const {register, setValue, handleSubmit, errors} = useForm();
   const onSubmit = data => {
     Alert.alert('Form Data', JSON.stringify(data));
+    avigation.navigate('Login');
   };
 
   return (
