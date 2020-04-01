@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Body,
   Button,
@@ -18,7 +18,6 @@ const CardForm = ({navigation}) => {
   const {register, setValue, handleSubmit, errors} = useForm();
   const onSubmit = data => {
     Alert.alert('Form Data', JSON.stringify(data));
-    avigation.navigate('Login');
   };
 
   return (
@@ -28,10 +27,9 @@ const CardForm = ({navigation}) => {
             <Item floatingLabel>
               <Label style={styles.label}>שם מלא</Label>
               <Input style={styles.input} placeholder="שם מלא"
-                     ref={register({name: 'name'},
-                         {required: true, minLength: 2})}
+                     ref={register({name: 'name'}, {required: true})}
                      onChangeText={text => setValue('name', text, true)}/>
-              <Icon style={styles.checkIcon} name='checkmark-circle'/>
+              {errors.name && <Icon style={styles.checkIcon}  name='dislike2' type={'AntDesign'}/>}
             </Item>
             <Item floatingLabel style={styles.item} last>
               <Label style={styles.label}>מספר פלאפון</Label>
@@ -40,10 +38,11 @@ const CardForm = ({navigation}) => {
                      dataDetectorTypes={'phoneNumber'}
                      style={styles.input} placeholder="מספר פלאפון"
                      ref={register({name: 'phoneNumber'},
-                         {required: true, pattern: /^05\d{8}$/i})}
-                     onChangeText={text => setValue('name', text, true)}/>
+                         {required: true, pattern: /^05\d{8}$/g})}
+                     onChangeText={text => setValue('phoneNumber', text,
+                         true)}/>
               {errors.phoneNumber &&
-              <HebboText>errors.phoneNumber </HebboText>}
+              <Icon style={styles.checkIcon}  name='dislike2' type={'AntDesign'}/>}
             </Item>
           </Form>
         </CardItem>
@@ -80,6 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   checkIcon: {
-    color: 'rgb(86,220,96)',
+    fontSize:22,
+    color: '#fe6b6b',
   },
 });
