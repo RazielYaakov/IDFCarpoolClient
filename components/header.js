@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import styled from 'styled-components';
-import {AssistantText} from './text/HebboText';
+import { AssistantText } from './HeeboText';
 
 export default function Header() {
   return (
@@ -17,7 +17,7 @@ const TextHeader = styled(AssistantText)`
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     paddingTop: 20,
     backgroundColor: 'cornflowerblue',
     alignItems: 'center',

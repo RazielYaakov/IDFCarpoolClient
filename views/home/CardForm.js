@@ -10,18 +10,19 @@ import {
   Item,
   Label,
 } from 'native-base';
-import {HebboText} from '../../components/text/HebboText';
+import {HeeboText} from '../../components/HeeboText';
 import {StyleSheet, Alert} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 
-const CardForm = ({navigation}) => {
-  const {register, setValue, handleSubmit, errors} = useForm();
+const CardForm = ({ navigation }) => {
+  const { register, setValue, handleSubmit, errors } = useForm();
   const onSubmit = data => {
     Alert.alert('Form Data', JSON.stringify(data));
+    navigation.navigate('TabNavigator');
   };
 
   return (
-      <Card style={styles.cardStyle} opacity={0.75}>
+      <Card style={styles.cardStyle}>
         <CardItem style={styles.cardForm}>
           <Form style={styles.cardForm}>
             <Item floatingLabel>
@@ -32,11 +33,11 @@ const CardForm = ({navigation}) => {
               {errors.name && <Icon style={styles.checkIcon}  name='dislike2' type={'AntDesign'}/>}
             </Item>
             <Item floatingLabel style={styles.item} last>
-              <Label style={styles.label}>מספר פלאפון</Label>
+              <Label style={styles.label}>מספר טלפון</Label>
               <Input autoCompleteType={'tel'}
                      keyboardType={'phone-pad'}
                      dataDetectorTypes={'phoneNumber'}
-                     style={styles.input} placeholder="מספר פלאפון"
+                     style={styles.input} placeholder="מספר טלפון"
                      ref={register({name: 'phoneNumber'},
                          {required: true, pattern: /^05\d{8}$/g})}
                      onChangeText={text => setValue('phoneNumber', text,
@@ -50,7 +51,7 @@ const CardForm = ({navigation}) => {
           <Body>
             <Button iconRight block
                     onPress={handleSubmit(onSubmit)}>
-              <HebboText>התחבר</HebboText>
+              <HeeboText>התחבר</HeeboText>
               <Icon name='arrow-forward'/>
             </Button>
           </Body>
@@ -64,6 +65,7 @@ export default CardForm;
 const styles = StyleSheet.create({
   cardStyle: {
     width: '80%',
+    opacity: 0.9
   },
   cardForm: {
     width: '100%',

@@ -1,44 +1,57 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import styled from 'styled-components';
-import { HebboText } from '../../components/text/HebboText';
+import { HeeboText } from '../../components/HeeboText';
 
 const styles = StyleSheet.create({
   tinyLogo: {
     width: 100,
     height: 100,
+    marginHorizontal: 5
   },
   iconWarpper: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  logos: {
+    flexDirection: 'row',
+    marginBottom: 70
+  },
   header: {
     fontSize: 20,
     marginBottom: 40,
     marginTop: 5,
-    color: "#d9d9d9"
+    color: "#08111A"
   },
   name: {
     fontSize: 30,
     fontWeight: 'bold',
     marginTop: 20,
-    color: "#d9d9d9"
-  }
+    color: "#08111A"
+  },
 });
 
 const HeaderIcon = () => {
   return (
     <View style={styles.iconWarpper}>
-      <Image
-        style={styles.tinyLogo}
-        source={require('../../assets/images/Icon.png')}
-      />
-      <HebboText style={styles.name} isBold={true}> IDF Carpool</HebboText>
-      <HebboText style={styles.header}>הכביש הזה מתחיל כאן
-        </HebboText>
+      <View style={styles.logos}>
+        <Image
+          style={styles.tinyLogo}
+          source={require('../../assets/images/idf-logo.png')}
+        />
+        <Image
+          style={styles.tinyLogo}
+          source={require('../../assets/images/ride.gif')}
+        />
+        <Image
+          style={styles.tinyLogo}
+          source={require('../../assets/images/Icon.png')}
+        />
+      </View>
     </View>
   );
 };
 
 export default HeaderIcon;
+

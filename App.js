@@ -1,23 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
-import {AppLoading} from 'expo';
-import LoginPage from './components/loginPage';
-import styled from 'styled-components';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { AppLoading } from 'expo';
 import HomePage from './views/home/HomePage';
-import StatusPage from './components/statusPage';
+import StatusPage from './views/status/statusPage';
+import TabNavigator from './routing/TabNavigator';
 import * as Font from 'expo-font';
-import {Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { I18nManager } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 const loadFonts = async (setFontReady) => {
   await Font.loadAsync({
     'Heebo': require('./assets/fonts/Heebo/Heebo-Light.ttf'),
     'Heebo-Bold': require('./assets/fonts/Heebo/Heebo-Bold.ttf'),
-    'Assitant': require('./assets/fonts/Assistant/Assistant-Light.ttf'),
-    'Assitant-Bold': require('./assets/fonts/Assistant/Assistant-Bold.ttf'),
+    'Assistant': require('./assets/fonts/Assistant/Assistant-Light.ttf'),
+    'Assistant-Bold': require('./assets/fonts/Assistant/Assistant-Bold.ttf'),
     Roboto: require('native-base/Fonts/Roboto.ttf'),
     Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
     ...Ionicons.font,
@@ -26,7 +25,6 @@ const loadFonts = async (setFontReady) => {
 };
 
 I18nManager.forceRTL(true);
-
 
 const Stack = createStackNavigator();
 
@@ -38,24 +36,15 @@ export default function App() {
   }, []);
 
   if (!fontReady) {
-    return <AppLoading/>;
+    return <AppLoading />;
   }
 
   return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={StatusPage}
-                        options={{headerShown: false}}/>
-          <Stack.Screen name="Login" component={StatusPage}
-                        options={{title: 'הירשם'}}/>
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-
 }
-
-const RootView = styled(View)`
-  font-family:'Assistant',serif;
-  background-color: #fefefe;
-  flex:1;
-`;
