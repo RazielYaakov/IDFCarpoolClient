@@ -22,7 +22,7 @@ const CardForm = ({ navigation }) => {
   };
 
   return (
-      <Card style={styles.cardStyle} opacity={0.75}>
+      <Card style={styles.cardStyle}>
         <CardItem style={styles.cardForm}>
           <Form style={styles.cardForm}>
             <Item floatingLabel>
@@ -33,11 +33,11 @@ const CardForm = ({ navigation }) => {
               {errors.name && <Icon style={styles.checkIcon}  name='dislike2' type={'AntDesign'}/>}
             </Item>
             <Item floatingLabel style={styles.item} last>
-              <Label style={styles.label}>מספר פלאפון</Label>
+              <Label style={styles.label}>מספר טלפון</Label>
               <Input autoCompleteType={'tel'}
                      keyboardType={'phone-pad'}
                      dataDetectorTypes={'phoneNumber'}
-                     style={styles.input} placeholder="מספר פלאפון"
+                     style={styles.input} placeholder="מספר טלפון"
                      ref={register({name: 'phoneNumber'},
                          {required: true, pattern: /^05\d{8}$/g})}
                      onChangeText={text => setValue('phoneNumber', text,
@@ -65,6 +65,7 @@ export default CardForm;
 const styles = StyleSheet.create({
   cardStyle: {
     width: '80%',
+    opacity: 0.9
   },
   cardForm: {
     width: '100%',
