@@ -8,7 +8,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomePage from './views/home/HomePage';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
-import { I18nManager } from 'react-native'
+import { I18nManager } from 'react-native';
+import FindRidePage from './views/findRide/FindRidePage';
 
 
 const loadFonts = async (setFontReady) => {
@@ -47,6 +48,7 @@ export default function App() {
                         options={{headerShown: false}}/>
           <Stack.Screen name="Login" component={LoginPage}
                         options={{title: 'הרשם'}}/>
+          <Stack.Screen name="FindRide" component={FindRidePage}/>
         </Stack.Navigator>
       </NavigationContainer>
   );
