@@ -34,9 +34,9 @@ const HeaderIcon = () => {
             style={styles.tinyLogo}
             source={require('../../assets/images/Icon.png')}
         />
-        <HebboText style={styles.name} isBold={true}> IDF Carpool</HebboText>
-        <HebboText style={styles.header}>הכביש הזה מתחיל כאן
-        </HebboText>
+        <HeeboText style={styles.name} isBold={true}> IDF Carpool</HeeboText>
+        <HeeboText style={styles.header}>הכביש הזה מתחיל כאן
+        </HeeboText>
       </View>
   );
 };

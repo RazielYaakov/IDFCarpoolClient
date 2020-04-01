@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components';
-import {AssistantText} from './text/HebboText';
+import {AssistantText} from './HeeboText';
 
 export default function Header() {
   return (
