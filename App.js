@@ -11,8 +11,8 @@ const loadFonts = async (setFontReady) => {
   await Font.loadAsync({
     'Heebo': require('./assets/fonts/Heebo/Heebo-Light.ttf'),
     'Heebo-Bold': require('./assets/fonts/Heebo/Heebo-Bold.ttf'),
-    'Assitant': require('./assets/fonts/Assistant/Assistant-Light.ttf'),
-    'Assitant-Bold': require('./assets/fonts/Assistant/Assistant-Bold.ttf'),
+    'Assistant': require('./assets/fonts/Assistant/Assistant-Light.ttf'),
+    'Assistant-Bold': require('./assets/fonts/Assistant/Assistant-Bold.ttf'),
   });
   setFontReady(true);
 };
@@ -42,7 +42,7 @@ export default function App() {
 }
 
 const RootView = styled(View)`
-  font-family:'Assitant',serif;
+  font-family:'Assistant',serif;
   background-color: #fefefe;
   flex:1;
 `;
