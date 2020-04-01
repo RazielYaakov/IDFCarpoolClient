@@ -1,8 +1,7 @@
 import React from 'react';
-import {HebboText} from '../../components/text/HebboText';
+import { HeeboText } from '../../components/text/HeeboText';
 import styled from 'styled-components';
-import BackgroundImage from '../../assets/images/homeScreenPhoto2.jpg';
-import { Button, View, Image, StyleSheet } from 'react-native';
+import { Button, View, Image, StyleSheet, ImageBackground } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,21 +13,23 @@ const styles = StyleSheet.create({
   }
 });
 
-const HomePage = ({navigation}) => {
+const HomePage = ({ navigation }) => {
   return (
+    <ImageBackground source={require('../../assets/images/homeScreenPhoto2.jpg')} style={{flex:1}}>
       <Wrapper>
         <Image
-            style={styles.tinyLogo}
-            source={require('../../assets/images/Icon.png')}
+          style={styles.tinyLogo}
+          source={require('../../assets/images/Icon.png')}
         />
         <Header isBold={true}>משפט גנארי הסעה
         </Header>
         <LoginButton>
           <Button
-              title="התחבר"
-              onPress={() => navigation.navigate('Login')}/>
+            title="התחבר"
+            onPress={() => navigation.navigate('Login')} />
         </LoginButton>
       </Wrapper>
+    </ImageBackground>
   );
 };
 
@@ -36,27 +37,20 @@ export default HomePage;
 
 const Wrapper = styled(View)`
   flex:1;
-  background-image: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),url(${BackgroundImage});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
-  background-size: cover;
-  display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const Header = styled(HebboText)`
-  margin-top: 2em;
-  font-size: 2.5em;
-  margin-bottom: 2em;
+const Header = styled(HeeboText)`
+  margin-top: 10;
+  font-size: 30;
+  margin-bottom: 20;
   font-weight: bold;
   color: #fff;
 `;
 
 const LoginButton = styled(View)`
-  display: inline-block;
-  border-radius: 3px;
-  width: 12em;
+  border-radius: 3;
+  width: 100;
 `;
 
