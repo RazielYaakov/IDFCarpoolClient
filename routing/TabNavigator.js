@@ -10,9 +10,9 @@ const Tab = createMaterialTopTabNavigator();
 export default function TabNavigator() {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Request" component={RequestPage} options={{ title: 'בקש טרמפ' }} />
-            <Tab.Screen name="Offer" component={OfferPage} options={{ title: 'הצע טרמפ' }} />
-            <Tab.Screen name="Status" component={StatusPage} options={{ title: 'סטטוס טרמפים' }} />
+            <Tab.Screen name="Request" component={RequestPage} options={{ title: 'בקש' }} />
+            <Tab.Screen name="Offer" component={OfferPage} options={{ title: 'הצע' }} />
+            <Tab.Screen name="Status" component={StatusPage} options={{ title: 'סטטוס' }} />
         </Tab.Navigator>
     )
 };
