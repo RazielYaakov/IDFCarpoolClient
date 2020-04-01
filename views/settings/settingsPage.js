@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Content } from 'native-base';
-import { ImageBackground, StyleSheet, Text } from 'react-native';
-import StatusForm from './statusForm';
+import { ImageBackground, StyleSheet, Text, Settings } from 'react-native';
+import SettingsForm from './settingsForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,21 +24,21 @@ const styles = StyleSheet.create({
   }
 });
 
-const StatusPage = ({ navigation }) => {
+const SettingsPage = ({ navigation }) => {
   return (
     <Container>
       <ImageBackground
         source={require('../../assets/images/homeScreenPhoto2.jpg')}
         style={styles.backgroundImage}>
         <Content contentContainerStyle={styles.container}>
-          <StatusForm />
+          <SettingsForm />
         </Content>
       </ImageBackground>
     </Container>
   );
 };
 
-export default StatusPage;
+export default SettingsPage;
 
 
 

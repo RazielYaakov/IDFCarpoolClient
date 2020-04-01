@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AppLoading } from 'expo';
 import HomePage from './views/home/HomePage';
+import StatusPage from './views/status/statusPage';
 import TabNavigator from './routing/TabNavigator';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -41,8 +42,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomePage}  options={{ title: 'IDF Carpool' }}/>
-        <Stack.Screen name="TabNavigator" component={TabNavigator}  options={{ title: 'IDF Carpool'}}/>
+        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
