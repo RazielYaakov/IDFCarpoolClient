@@ -1,8 +1,9 @@
 import React from 'react';
+import {StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import RequestPage from '../views/findRide/FindRidePage';
 import OfferPage from '../views/offer/OfferPage';
-import StatusPage from '../views/status/statusPage';
+import StatusPage from '../views/status/StatusPage';
 import SettingsPage from '../views/settings/settingsPage';
 import { Icon } from 'native-base';
 

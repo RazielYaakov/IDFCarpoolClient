@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AppLoading } from 'expo';
 import HomePage from './views/home/HomePage';
-import StatusPage from './views/status/statusPage';
 import TabNavigator from './routing/TabNavigator';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
