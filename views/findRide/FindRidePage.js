@@ -66,7 +66,7 @@ const FindRidePage = () => {
                     />
 
                     <CardItem style={styles.cardItemWithSubmit}>
-                        <Button title={'חפש טרמפ'} onPress={handleSubmit(onSubmit)}/>
+                        <Button title={'בקש טרמפ'} onPress={handleSubmit(onSubmit)}/>
                     </CardItem>
                 </Card>
             </Content>
