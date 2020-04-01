@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeeboText } from '../../components/text/HeeboText';
+import { HeeboText } from '../../components/HeeboText';
 import styled from 'styled-components';
 import {
   Button,

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import styled from 'styled-components';
-import {HebboText} from '../../components/text/HebboText';
+import {HeeboText} from '../../components/HeeboText';
 
 const styles = StyleSheet.create({
   tinyLogo: {
@@ -30,7 +30,7 @@ const HeaderIcon = () => {
 
 export default HeaderIcon;
 
-const StyledHeader = styled(HebboText)`
+const StyledHeader = styled(HeeboText)`
   margin-top: 20px;
   font-size: 30px;
   margin-bottom: 40px;
