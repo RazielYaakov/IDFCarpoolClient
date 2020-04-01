@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {AssistantText, HeeboText} from './text/HeeboText';
 import styled from 'styled-components';
+import {AssistantText} from './text/HebboText';
 
 export default function Header() {
   return (
     <View style={styles.container}>
-      <TextHeader isBold={false} >אי די אף קארפול</TextHeader>
+      <TextHeader isBold={false} >IDF Carpoll</TextHeader>
     </View>
   );
 }
