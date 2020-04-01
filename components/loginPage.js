@@ -1,18 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Header from './header'
 import LoginForm from './loginForm'
 
 export default function LoginPage() {
   return (
-    <View style={styles.container}>
+    <View  style={styles.container}>
       <LoginForm />
-    </View>
+    </View >
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex:1,  
   },
 });

@@ -6,7 +6,7 @@ import {AssistantText} from './text/HebboText';
 export default function Header() {
   return (
     <View style={styles.container}>
-      <TextHeader isBold={false} >IDF Carpoll</TextHeader>
+      <TextHeader isBold={false} >IDF Carpool</TextHeader>
     </View>
   );
 }

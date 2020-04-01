@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomePage from './views/home/HomePage';
+import StatusPage from './components/statusPage';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
 import { I18nManager } from 'react-native'
@@ -43,10 +44,10 @@ export default function App() {
   return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomePage}
+          <Stack.Screen name="Home" component={StatusPage}
                         options={{headerShown: false}}/>
-          <Stack.Screen name="Login" component={LoginPage}
-                        options={{title: 'הרשם'}}/>
+          <Stack.Screen name="Login" component={StatusPage}
+                        options={{title: 'הירשם'}}/>
         </Stack.Navigator>
       </NavigationContainer>
   );
