@@ -13,6 +13,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  header:{
+    fontSize:20,
+    marginBottom:40,
+    marginTop:5,
+    color:"#d9d9d9"
+  },
+  name:{
+    fontSize:30,
+    fontWeight: 'bold',
+    marginTop:20,
+    color:"#d9d9d9"
+  }
 });
 
 const HeaderIcon = () => {
@@ -22,18 +34,12 @@ const HeaderIcon = () => {
             style={styles.tinyLogo}
             source={require('../../assets/images/Icon.png')}
         />
-        <StyledHeader isBold={true}>הכביש הזה מתחיל כאן
-        </StyledHeader>
+        <HebboText style={styles.name} isBold={true}> IDF Carpool</HebboText>
+        <HebboText style={styles.header}>הכביש הזה מתחיל כאן
+        </HebboText>
       </View>
   );
 };
 
 export default HeaderIcon;
 
-const StyledHeader = styled(HeeboText)`
-  margin-top: 20px;
-  font-size: 30px;
-  margin-bottom: 40px;
-  font-weight: bold;
-  color: #d9d9d9;
-`;
