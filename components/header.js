@@ -1,12 +1,12 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import styled from 'styled-components';
-import {AssistantText} from './HeeboText';
+import { AssistantText } from './HeeboText';
 
 export default function Header() {
   return (
     <View style={styles.container}>
-      <TextHeader isBold={false} >IDF Carpoll</TextHeader>
+      <TextHeader isBold={false} >IDF Carpool</TextHeader>
     </View>
   );
 }
@@ -17,7 +17,7 @@ const TextHeader = styled(AssistantText)`
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     paddingTop: 20,
     backgroundColor: 'cornflowerblue',
     alignItems: 'center',
