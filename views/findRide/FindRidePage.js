@@ -28,7 +28,7 @@ const FindRidePage = () => {
     }
 
     const getErrorMessage = () => {
-        let message = "";
+        let message = null;
 
         if(errors?.date?.type === "required") {
             message = "לא הוכנס תאריך";
@@ -38,7 +38,9 @@ const FindRidePage = () => {
             message = "התאריך חייב להיות עתידי";
         }
 
-        return <CardItem style={styles.errorTextCard}><Text style={styles.errorText}>{message}</Text></CardItem>;
+        return message 
+            ? <CardItem style={styles.errorTextCard}><Text style={styles.errorText}>{message}</Text></CardItem> 
+            : null;
     }
 
     return (
