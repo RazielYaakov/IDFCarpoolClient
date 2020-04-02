@@ -1,6 +1,6 @@
-import React from 'react';
 import { Container, Content } from 'native-base';
-import { ImageBackground, StyleSheet, Text } from 'react-native';
+import React from 'react';
+import { ImageBackground, StyleSheet } from 'react-native';
 import StatusForm from './statusForm';
 
 const styles = StyleSheet.create({

@@ -20,16 +20,29 @@ const loadFonts = async (setFontReady) => {
   setFontReady(true);
 };
 
+const loadStoredPhoneNumber = async (setPhoneNumberReady, setInitialRouteName) => {
+    const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
+
+    if(phoneNumber) {
+        setInitialRouteName(TAB_NAVIGATOR_ROUTE_NAME);
+    }
+
+    setPhoneNumberReady(true);
+}
+
 I18nManager.forceRTL(true);
 
 export default function App() {
   const [fontReady, setFontReady] = useState(false);
+  const [phoneNumberReady, setPhoneNumberReady] = useState(false);
+  const [initialRouteName, setInitialRouteName] = useState(HOME_ROUTE_NAME);
 
   useEffect(() => {
     loadFonts(setFontReady);
+    loadStoredPhoneNumber(setPhoneNumberReady, setInitialRouteName);
   }, []);
 
-  if (!fontReady) {
+  if (!(fontReady && phoneNumberReady)) {
     return <AppLoading />;
   }
 
