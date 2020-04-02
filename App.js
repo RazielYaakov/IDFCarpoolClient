@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { AppLoading } from 'expo';
-import HomePage from './views/home/HomePage';
-import TabNavigator from './routing/TabNavigator';
-import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { I18nManager } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import { AppLoading } from 'expo';
+import * as Font from 'expo-font';
+import React, { useEffect, useState } from 'react';
+import { I18nManager } from 'react-native';
+import TabNavigator from './routing/TabNavigator';
+import HomePage from './views/home/HomePage';
 
 const loadFonts = async (setFontReady) => {
   await Font.loadAsync({

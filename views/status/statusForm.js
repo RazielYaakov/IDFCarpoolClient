@@ -1,17 +1,7 @@
+import { Button, Card, CardItem, Form, Icon } from 'native-base';
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Table, TableWrapper, Row, Rows } from 'react-native-table-component';
-import {
-    Body,
-    Button,
-    Card,
-    CardItem,
-    Form,
-    Icon,
-    Input,
-    Item,
-    Label,
-} from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Row, Rows, Table, TableWrapper } from 'react-native-table-component';
 
 const styles = StyleSheet.create({
     cardStyle: { width: '90%', opacity: 0.7 },

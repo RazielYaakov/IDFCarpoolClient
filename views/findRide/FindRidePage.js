@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, Button } from 'react-native';
 import moment from 'moment';
-import sendRideDataRequest from '../../requests/sendRideDataRequest'
-import { Container, Content, Card, CardItem } from 'native-base';
-import ControlledPicker from '../../components/ControlledPicker';
+import { Card, CardItem, Container, Content } from 'native-base';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Button, StyleSheet, Text } from 'react-native';
 import ControlledDateModal from '../../components/ControlledDateModal';
+import ControlledPicker from '../../components/ControlledPicker';
+import sendRideDataRequest from '../../requests/sendRideDataRequest';
 
 const ALL_ORIGINS = ["צריפין", "תל השומר", "קריה", "שלישות רמת גן", "עיר הבהדים"];
 const ALL_DESTINATIONS = ["תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון"];
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 14;
 const FAKE_TELEPHONE = "0541234567"
-import {useForm} from 'react-hook-form';
 
 const FindRidePage = () => {
     const {control, handleSubmit, errors} = useForm();

@@ -1,6 +1,6 @@
+import { Container, Content } from 'native-base';
 import React from 'react';
-import {Container, Content} from 'native-base';
-import {ImageBackground, StyleSheet} from 'react-native';
+import { ImageBackground, StyleSheet } from 'react-native';
 import CardForm from './CardForm';
 import HeaderIcon from './HeaderIcon';
 
