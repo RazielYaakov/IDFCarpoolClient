@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import RequestPage from '../views/request/RequestPage';
+import RequestPage from '../views/findRide/FindRidePage';
 import OfferPage from '../views/offer/OfferPage';
 import StatusPage from '../views/status/statusPage';
 import SettingsPage from '../views/settings/settingsPage';
