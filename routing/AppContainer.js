@@ -50,8 +50,7 @@ const StackNavigator = createStackNavigator({
     Login: {
         screen: LoginPage,
         navigationOptions:{
-            headerTitle:"IDF Carpool",
-            headerTitleAlign: "center",
+            headerShown:false,
         }
     },
     TabNavigator:{

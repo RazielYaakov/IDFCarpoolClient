@@ -4,8 +4,9 @@ import { AppLoading } from 'expo';
 import AppContainer from './routing/AppContainer';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { I18nManager } from 'react-native'
+import { I18nManager,AsyncStorage  } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
+import {HOME_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME} from './constants/constants'
 
 const loadFonts = async (setFontReady) => {
   await Font.loadAsync({
