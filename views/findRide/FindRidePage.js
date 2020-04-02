@@ -4,7 +4,7 @@ import moment from 'moment';
 import sendRideDataRequest from '../../requests/sendRideDataRequest'
 import { Container, Content, Card, CardItem } from 'native-base';
 import ControlledPicker from '../../components/ControlledPicker';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import ControlledDateModal from '../../components/ControlledDateModal';
 
 const ALL_ORIGINS = ["צריפין", "תל השומר", "קריה", "שלישות רמת גן", "עיר הבהדים"];
 const ALL_DESTINATIONS = ["תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון"];
@@ -13,7 +13,7 @@ const FAKE_TELEPHONE = "0541234567"
 import {useForm} from 'react-hook-form';
 
 const FindRidePage = () => {
-    const {control, handleSubmit, setValue, register, errors} = useForm();
+    const {control, handleSubmit, errors} = useForm();
 
     const [isDateVisible, setDateVisibility] = useState(false);
 
@@ -25,6 +25,22 @@ const FindRidePage = () => {
         catch(exception) {
             console.log("Error contacting the server");
         }
+    }
+
+    const getErrorMessage = () => {
+        let message = null;
+
+        if(errors?.date?.type === "required") {
+            message = "לא הוכנס תאריך";
+        }
+        
+        if(errors?.date?.type === "validate") {
+            message = "התאריך חייב להיות עתידי";
+        }
+
+        return message 
+            ? <CardItem style={styles.errorTextCard}><Text style={styles.errorText}>{message}</Text></CardItem> 
+            : null;
     }
 
     return (
@@ -50,20 +66,17 @@ const FindRidePage = () => {
                     <CardItem style={styles.cardItem}>
                         <Button style={styles.button} title={'בחר תאריך'} onPress={() => setDateVisibility(true)}/>
                     </CardItem>
-                    
-                    <DateTimePickerModal
-                        ref={register({ name: 'date' })}
-                        isVisible={isDateVisible}
-                        mode="datetime"
-                        onConfirm={date => {
-                                setDateVisibility(false);
-                                setValue('date', date);
-                            }
-                        }
-                        onCancel={() => setDateVisibility(false)}
+
+                    <ControlledDateModal 
+                        control={control} 
+                        name='date' 
+                        isVisible={isDateVisible} 
+                        setVisibility={setDateVisibility}
                         minimumDate={new Date()}
                         maximumDate={new Date(moment().add(MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED, 'days'))}
                     />
+
+                    {getErrorMessage()}
 
                     <CardItem style={styles.cardItemWithSubmit}>
                         <Button title={'בקש טרמפ'} onPress={handleSubmit(onSubmit)}/>
@@ -93,6 +106,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    errorTextCard: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    errorText: {
+        fontSize: 15,
+        color: 'red'
     }
   });
 
