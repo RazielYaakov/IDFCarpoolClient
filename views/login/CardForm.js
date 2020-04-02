@@ -1,23 +1,17 @@
-import React, {useState} from 'react';
-import {
-  Body,
-  Button,
-  Card,
-  CardItem,
-  Form,
-  Icon,
-  Input,
-  Item,
-  Label,
-} from 'native-base';
-import {HeeboText} from '../../components/HeeboText';
-import {StyleSheet, Alert} from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
+
+import { Body, Button, Card, CardItem, Form, Icon, Input, Item, Label } from 'native-base';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Alert, AsyncStorage, StyleSheet } from 'react-native';
+import { HeeboText } from '../../components/HeeboText';
+import { PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME } from '../../constants/constants';
 
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
+
   const onSubmit = data => {
     Alert.alert('Form Data', JSON.stringify(data));
+    AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
     navigation.navigate('TabNavigator');
   };
 

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AppLoading } from 'expo';
-import HomePage from './views/home/HomePage';
-import TabNavigator from './routing/TabNavigator';
+import AppContainer from './routing/AppContainer';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { I18nManager } from 'react-native'
+import { I18nManager,AsyncStorage  } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-
+import {HOME_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME} from './constants/constants'
 
 const loadFonts = async (setFontReady) => {
   await Font.loadAsync({
@@ -23,27 +21,33 @@ const loadFonts = async (setFontReady) => {
   setFontReady(true);
 };
 
-I18nManager.forceRTL(true);
+const loadStoredPhoneNumber = async (setPhoneNumberReady, setInitialRouteName) => {
+    const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
 
-const Stack = createStackNavigator();
+    if(phoneNumber) {
+        setInitialRouteName(TAB_NAVIGATOR_ROUTE_NAME);
+    }
+
+    setPhoneNumberReady(true);
+}
+
+I18nManager.forceRTL(true);
 
 export default function App() {
   const [fontReady, setFontReady] = useState(false);
+  const [phoneNumberReady, setPhoneNumberReady] = useState(false);
+  const [initialRouteName, setInitialRouteName] = useState(HOME_ROUTE_NAME);
 
   useEffect(() => {
     loadFonts(setFontReady);
+    loadStoredPhoneNumber(setPhoneNumberReady, setInitialRouteName);
   }, []);
 
-  if (!fontReady) {
+  if (!(fontReady && phoneNumberReady)) {
     return <AppLoading />;
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AppContainer/>
   );
 }

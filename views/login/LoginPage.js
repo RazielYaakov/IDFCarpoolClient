@@ -1,6 +1,6 @@
+import { Container, Content } from 'native-base';
 import React from 'react';
-import {Container, Content} from 'native-base';
-import {ImageBackground, StyleSheet} from 'react-native';
+import { ImageBackground, StyleSheet } from 'react-native';
 import CardForm from './CardForm';
 import HeaderIcon from './HeaderIcon';
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const HomePage = ({ navigation }) => {
+const LoginPage = ({ navigation }) => {
   return (
       <Container>
         <ImageBackground
@@ -35,7 +35,7 @@ const HomePage = ({ navigation }) => {
   );
 };
 
-export default HomePage;
+export default LoginPage;
 
 
 
