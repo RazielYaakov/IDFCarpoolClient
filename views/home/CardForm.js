@@ -3,26 +3,16 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, AsyncStorage, StyleSheet } from 'react-native';
 import { HeeboText } from '../../components/HeeboText';
-
-const PHONE_LOCAL_STORAGE_NAME = 'phone';
-const NAME_OF_PAGE_AFTER_LOGIN = 'TabNavigator';
+import { PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME } from '../../constants/constants';
 
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
 
-  const navigateToPageAfterLogin = () => navigation.navigate(NAME_OF_PAGE_AFTER_LOGIN);
-
   const onSubmit = data => {
     Alert.alert('Form Data', JSON.stringify(data));
     AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
-    navigateToPageAfterLogin();
+    navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
   };
-
-    AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME).then(phone => {
-        if(phone) {
-            navigateToPageAfterLogin();
-        }
-    });
 
   return (
       <Card style={styles.cardStyle}>

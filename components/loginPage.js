@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Header from './header'
-import LoginForm from './loginForm'
+import LoginForm from './loginForm';
 
 export default function LoginPage() {
   return (

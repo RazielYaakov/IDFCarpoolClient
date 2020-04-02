@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import React, { useEffect, useState } from 'react';
-import { I18nManager } from 'react-native';
+import { I18nManager, AsyncStorage } from 'react-native';
+import { HOME_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME } from './constants/constants';
 import TabNavigator from './routing/TabNavigator';
 import HomePage from './views/home/HomePage';
 
@@ -21,26 +22,39 @@ const loadFonts = async (setFontReady) => {
   setFontReady(true);
 };
 
+const loadStoredPhoneNumber = async (setPhoneNumberReady, setInitialRouteName) => {
+    const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
+
+    if(phoneNumber) {
+        setInitialRouteName(TAB_NAVIGATOR_ROUTE_NAME);
+    }
+
+    setPhoneNumberReady(true);
+}
+
 I18nManager.forceRTL(true);
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [fontReady, setFontReady] = useState(false);
+  const [phoneNumberReady, setPhoneNumberReady] = useState(false);
+  const [initialRouteName, setInitialRouteName] = useState(HOME_ROUTE_NAME);
 
   useEffect(() => {
     loadFonts(setFontReady);
+    loadStoredPhoneNumber(setPhoneNumberReady, setInitialRouteName);
   }, []);
 
-  if (!fontReady) {
+  if (!(fontReady && phoneNumberReady)) {
     return <AppLoading />;
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
+      <Stack.Navigator initialRouteName={initialRouteName}>
+        <Stack.Screen name={HOME_ROUTE_NAME} component={HomePage} options={{ headerShown: false }} />
+        <Stack.Screen name={TAB_NAVIGATOR_ROUTE_NAME} component={TabNavigator} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
