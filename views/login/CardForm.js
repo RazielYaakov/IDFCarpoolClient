@@ -11,13 +11,12 @@ import {
   Label,
 } from 'native-base';
 import {HeeboText} from '../../components/HeeboText';
-import {StyleSheet, Alert} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
   const onSubmit = data => {
-    Alert.alert('Form Data', JSON.stringify(data));
     navigation.navigate('TabNavigator');
   };
 

@@ -5,9 +5,9 @@ import { HeeboText } from '../../components/HeeboText';
 
 const styles = StyleSheet.create({
   tinyLogo: {
-    width: 100,
-    height: 100,
-    marginHorizontal: 5
+    width: 150,
+    height: 150,
+    marginHorizontal: 10
   },
   iconWarpper: {
     display: 'flex',
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   logos: {
     flexDirection: 'row',
-    marginBottom: 70
+    marginBottom: 50
   },
   header: {
     fontSize: 20,
@@ -39,10 +39,6 @@ const HeaderIcon = () => {
         <Image
           style={styles.tinyLogo}
           source={require('../../assets/images/idf-logo.png')}
-        />
-        <Image
-          style={styles.tinyLogo}
-          source={require('../../assets/images/ride.gif')}
         />
         <Image
           style={styles.tinyLogo}

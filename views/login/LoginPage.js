@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const HomePage = ({ navigation }) => {
+const LoginPage = ({ navigation }) => {
   return (
       <Container>
         <ImageBackground
@@ -35,7 +35,7 @@ const HomePage = ({ navigation }) => {
   );
 };
 
-export default HomePage;
+export default LoginPage;
 
 
 

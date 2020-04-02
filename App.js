@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AppLoading } from 'expo';
-import HomePage from './views/home/HomePage';
-import TabNavigator from './routing/TabNavigator';
+import AppContainer from './routing/AppContainer';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { I18nManager } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-
 
 const loadFonts = async (setFontReady) => {
   await Font.loadAsync({
@@ -25,8 +22,6 @@ const loadFonts = async (setFontReady) => {
 
 I18nManager.forceRTL(true);
 
-const Stack = createStackNavigator();
-
 export default function App() {
   const [fontReady, setFontReady] = useState(false);
 
@@ -39,11 +34,6 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AppContainer/>
   );
 }
