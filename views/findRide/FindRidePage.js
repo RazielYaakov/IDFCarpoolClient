@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { Card, CardItem, Container, Content } from 'native-base';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,9 +5,8 @@ import { Button, StyleSheet, Text } from 'react-native';
 import ControlledDateModal from '../../components/ControlledDateModal';
 import ControlledPicker from '../../components/ControlledPicker';
 import sendRideDataRequest from '../../requests/sendRideDataRequest';
+import { ALL_BASES, ALL_CITIES } from '../../constants/constants';
 
-const ALL_ORIGINS = ["צריפין", "תל השומר", "קריה", "שלישות רמת גן", "עיר הבהדים"];
-const ALL_DESTINATIONS = ["תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון"];
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 14;
 const FAKE_TELEPHONE = "0541234567"
 
@@ -52,7 +50,7 @@ const FindRidePage = () => {
                     </CardItem>
 
                     <CardItem style={styles.cardItem}>
-                        <ControlledPicker name="origin" control={control} options={ALL_ORIGINS}/>
+                        <ControlledPicker name="origin" control={control} options={ALL_BASES}/>
                     </CardItem>
 
                     <CardItem style={styles.cardItem}>
@@ -60,7 +58,7 @@ const FindRidePage = () => {
                     </CardItem>
 
                     <CardItem style={styles.cardItem}>
-                        <ControlledPicker name="destination" control={control} options={ALL_DESTINATIONS}/>
+                        <ControlledPicker name="destination" control={control} options={ALL_CITIES}/>
                     </CardItem>
 
                     <CardItem style={styles.cardItem}>
@@ -69,11 +67,14 @@ const FindRidePage = () => {
 
                     <ControlledDateModal 
                         control={control} 
-                        name='date' 
+                        name='date'
+                        mode='datetime'
+                        rules={{
+                            required: true, 
+                            validate: date => date > new Date()
+                        }}
                         isVisible={isDateVisible} 
                         setVisibility={setDateVisibility}
-                        minimumDate={new Date()}
-                        maximumDate={new Date(moment().add(MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED, 'days'))}
                     />
 
                     {getErrorMessage()}
