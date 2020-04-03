@@ -4,9 +4,9 @@ import { AppLoading } from 'expo';
 import AppContainer from './routing/AppContainer';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { I18nManager,AsyncStorage  } from 'react-native'
+import { I18nManager, AsyncStorage } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
-import {HOME_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME} from './constants/constants'
+import { LOGIN_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME } from './constants/constants'
 
 const loadFonts = async (setFontReady) => {
   await Font.loadAsync({
@@ -22,13 +22,13 @@ const loadFonts = async (setFontReady) => {
 };
 
 const loadStoredPhoneNumber = async (setPhoneNumberReady, setInitialRouteName) => {
-    const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
+  const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
 
-    if(phoneNumber) {
-        setInitialRouteName(TAB_NAVIGATOR_ROUTE_NAME);
-    }
+  if (phoneNumber) {
+    setInitialRouteName(TAB_NAVIGATOR_ROUTE_NAME);
+  }
 
-    setPhoneNumberReady(true);
+  setPhoneNumberReady(true);
 }
 
 I18nManager.forceRTL(true);
@@ -36,7 +36,7 @@ I18nManager.forceRTL(true);
 export default function App() {
   const [fontReady, setFontReady] = useState(false);
   const [phoneNumberReady, setPhoneNumberReady] = useState(false);
-  const [initialRouteName, setInitialRouteName] = useState(HOME_ROUTE_NAME);
+  const [initialRouteName, setInitialRouteName] = useState(LOGIN_ROUTE_NAME);
 
   useEffect(() => {
     loadFonts(setFontReady);
@@ -48,6 +48,6 @@ export default function App() {
   }
 
   return (
-    <AppContainer/>
+    <AppContainer initialRouteName={initialRouteName} />
   );
 }

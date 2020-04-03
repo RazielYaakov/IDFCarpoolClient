@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Container, Content} from 'native-base';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
-
 import sendRideDataRequest from '../../requests/sendRideDataRequest';
 import SearchForm from './SearchForm';
 import AvailableRidesList from './AvailableRidesList';
