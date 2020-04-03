@@ -8,11 +8,11 @@ const onChange = (date, setVisibility) => {
     return date[0];
 }
 
-const ControlledDateModal = ({name, control, isVisible, setVisibility, minimumDate, maximumDate}) => 
+const ControlledDateModal = ({name, control, isVisible, setVisibility, minimumDate, maximumDate, mode, rules}) => 
     <Controller as={
         <DateTimePickerModal
             isVisible={isVisible}
-            mode="datetime"
+            mode={mode}
             onConfirm={()=>{}}
             onCancel={() => setVisibility(false)}
             minimumDate={minimumDate}
@@ -24,10 +24,7 @@ const ControlledDateModal = ({name, control, isVisible, setVisibility, minimumDa
     onChange={date => onChange(date, setVisibility)}
     onChangeName={'onConfirm'}
     defaultValue={undefined}
-    rules={{
-        required: true, 
-        validate: date => date > new Date()
-    }}
+    rules={rules}
     />
 
 export default ControlledDateModal;
