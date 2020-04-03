@@ -75,6 +75,8 @@ const FindRidePage = () => {
                         }}
                         isVisible={isDateVisible} 
                         setVisibility={setDateVisibility}
+                        minimumDate={new Date()}
+                        maximumDate={new Date(moment().add(MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED, 'days'))}
                     />
 
                     {getErrorMessage()}
