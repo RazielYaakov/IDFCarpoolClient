@@ -1,6 +1,7 @@
 import React from 'react';
 import {Controller} from 'react-hook-form';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
 
 const onChange = (date, setVisibility) => {
     setVisibility(false);

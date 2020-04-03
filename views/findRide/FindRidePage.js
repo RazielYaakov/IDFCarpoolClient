@@ -1,124 +1,63 @@
-import { Card, CardItem, Container, Content } from 'native-base';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Button, StyleSheet, Text } from 'react-native';
-import ControlledDateModal from '../../components/ControlledDateModal';
-import ControlledPicker from '../../components/ControlledPicker';
+import React, {useState} from 'react';
+import {Container, Content} from 'native-base';
+import {useForm} from 'react-hook-form';
+import {StyleSheet, View} from 'react-native';
 import sendRideDataRequest from '../../requests/sendRideDataRequest';
-import { ALL_BASES, ALL_CITIES } from '../../constants/constants';
-import moment from 'moment';
+import SearchForm from './SearchForm';
+import AvailableRidesList from './AvailableRidesList';
+import LottieView from 'lottie-react-native';
 
-const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 14;
-const FAKE_TELEPHONE = "0541234567"
+const FAKE_TELEPHONE = '0541234567';
 
 const FindRidePage = () => {
-    const {control, handleSubmit, errors} = useForm();
+  const {watch, control, handleSubmit, errors} = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const [rides, setRides] = useState(undefined);
 
-    const [isDateVisible, setDateVisibility] = useState(false);
+  const searchRides = async ({origin, destination, date}) => {
+    setIsLoading(true);
+    const rides = await sendRideDataRequest(FAKE_TELEPHONE, date, origin,
+        destination);
+    setIsLoading(false);
+    setRides(rides.data);
+  };
 
-    const onSubmit = async ({ origin, destination, date }) => {
-        try {
-            console.log(`Origin:${origin}, destination:${destination}, date:${date}, errors:${JSON.stringify(errors)}`);
-            await sendRideDataRequest(FAKE_TELEPHONE, date, origin, destination);
-        }
-        catch(exception) {
-            console.log("Error contacting the server");
-        }
-    }
-
-    const getErrorMessage = () => {
-        let message = null;
-
-        if(errors?.date?.type === "required") {
-            message = "לא הוכנס תאריך";
-        }
-        
-        if(errors?.date?.type === "validate") {
-            message = "התאריך חייב להיות עתידי";
-        }
-
-        return message 
-            ? <CardItem style={styles.errorTextCard}><Text style={styles.errorText}>{message}</Text></CardItem> 
-            : null;
-    }
-
+  if (isLoading) {
     return (
-        <Container>
-            <Content contentContainerStyle={styles.content}>
-                <Card style={styles.cardStyle}>
-                    <CardItem style={styles.cardItem}>
-                        <Text style={styles.text}>בחר מיקום התחלתי</Text>
-                    </CardItem>
-
-                    <CardItem style={styles.cardItem}>
-                        <ControlledPicker name="origin" control={control} options={ALL_BASES}/>
-                    </CardItem>
-
-                    <CardItem style={styles.cardItem}>
-                        <Text style={styles.text}>בחר יעד</Text>
-                    </CardItem>
-
-                    <CardItem style={styles.cardItem}>
-                        <ControlledPicker name="destination" control={control} options={ALL_CITIES}/>
-                    </CardItem>
-
-                    <CardItem style={styles.cardItem}>
-                        <Button style={styles.button} title={'בחר תאריך'} onPress={() => setDateVisibility(true)}/>
-                    </CardItem>
-
-                    <ControlledDateModal 
-                        control={control} 
-                        name='date'
-                        mode='datetime'
-                        rules={{
-                            required: true, 
-                            validate: date => date > new Date()
-                        }}
-                        isVisible={isDateVisible} 
-                        setVisibility={setDateVisibility}
-                        minimumDate={new Date()}
-                        maximumDate={new Date(moment().add(MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED, 'days'))}
-                    />
-
-                    {getErrorMessage()}
-
-                    <CardItem style={styles.cardItemWithSubmit}>
-                        <Button title={'בקש טרמפ'} onPress={handleSubmit(onSubmit)}/>
-                    </CardItem>
-                </Card>
-            </Content>
-        </Container>
+        <View style={styles.lottieContainer}>
+          <LottieView
+              style={styles.lottie}
+              source={require('../../assets/lottie/3657-small-car.json')}
+              autoPlay
+              loop={true}
+          />
+        </View>
     );
-}
+  }
+
+  return (
+      <Container>
+        {rides ?
+            <AvailableRidesList rides={rides}
+                                emptyRides={() => setRides(null)}/> :
+            <SearchForm submit={handleSubmit(searchRides)} control={control}
+                        watch={watch} errors={errors}/>}
+
+      </Container>
+  );
+};
 
 const styles = StyleSheet.create({
-    cardStyle: {
-      width: '80%',
-    },
-    cardItem: {
-        justifyContent: 'center',
-    },
-    text: {
-        fontSize: 20
-    },
-    cardItemWithSubmit: {
-        justifyContent: 'center',
-        marginTop: '10%'
-    },
-    content: {
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    errorTextCard: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    errorText: {
-        fontSize: 15,
-        color: 'red'
-    }
-  });
+  lottie: {
+    width: 250,
+    height: 250,
+  },
+  lottieContainer:{
+    justifyContent:'center',
+    alignItems:'center',
+    display:'flex',
+    flex:1
+  },
+});
 
 export default FindRidePage;

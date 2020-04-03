@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const SERVER_URL = 'http://localhost:60';
-const SEND_RIDE_DATA_API = 'findRide';
+const SERVER_URL = 'http://localhost:5000/';
+const SEND_RIDE_DATA_API = 'findride';
 
-export default (phoneNumber, date, origin, destination) => 
-    axios.post(`${SERVER_URL}/${SEND_RIDE_DATA_API}`, {
-        phoneNumber,
-        date,
-        origin,
-        destination
+export default (phoneNumber, date, source, destination) =>
+    axios.post(`${SERVER_URL}/${SEND_RIDE_DATA_API}?source=a&phoneNumber=1&dateTime=2020-04-02T04:37:36.127Z&destination=b&homeToBase=True`, {
+      phoneNumber,
+      DateTime: date,
+      source,
+      destination,
+      homeToBase: false,
     });
