@@ -3,17 +3,13 @@ import React from 'react';
 import { ImageBackground, StyleSheet } from 'react-native';
 import StatusForm from './statusForm';
 import showMyRidesRequest from './showMyRidesRequest';
+import RidesList from './RidesList';
 
 const FAKE_TELEPHONE = "0525217550"
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginBottom: 50,
+    backgroundColor:'#efefef'
   },
   backgroundImage: {
     flex: 1,
@@ -31,19 +27,15 @@ const StatusPage = ({ navigation }) => {
   var myRides = getMyRideRequests(FAKE_TELEPHONE);
   
   return (
-    <Container>
-      <ImageBackground
-        source={require('../../assets/images/homeScreenPhoto2.jpg')}
-        style={styles.backgroundImage}>
+    <Container style={styles.container}>
         <Content contentContainerStyle={styles.container}>
-          <StatusForm />
+          <RidesList/>
         </Content>
-      </ImageBackground>
     </Container>
   );
 };
 
-const getMyRideRequests = async (phoneNumber) => {
+const getMyRideRequests = async (phoneNumber) => { d
   try {
     var myRides = await showMyRidesRequest(FAKE_TELEPHONE);
     console.log(myRides);
