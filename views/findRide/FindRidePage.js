@@ -6,6 +6,7 @@ import ControlledDateModal from '../../components/ControlledDateModal';
 import ControlledPicker from '../../components/ControlledPicker';
 import sendRideDataRequest from '../../requests/sendRideDataRequest';
 import { ALL_BASES, ALL_CITIES } from '../../constants/constants';
+import moment from 'moment';
 
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 14;
 const FAKE_TELEPHONE = "0541234567"
