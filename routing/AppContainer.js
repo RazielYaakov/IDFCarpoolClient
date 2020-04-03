@@ -24,7 +24,7 @@ function TabNavigator() {
             <Tab.Screen name="נסיעות" component={StatusPage} 
             options={{
                 tabBarIcon: () => (
-                    <MaterialCommunityIcons size={25} name='truck-delivery'/>
+                    <MaterialCommunityIcons size={26} name='truck-delivery'/>
                 )
             }} />
             <Tab.Screen name="הגדרות" component={SettingsPage} 
