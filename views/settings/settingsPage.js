@@ -1,16 +1,16 @@
-import { Container, Content } from 'native-base';
+import {Container, Content} from 'native-base';
 import React from 'react';
-import { ImageBackground, StyleSheet } from 'react-native';
+import {StyleSheet, Image,View} from 'react-native';
 import SettingsForm from './settingsForm';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
     flex: 1,
+    backgroundColor: '#efefef',
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 50,
+
   },
   backgroundImage: {
     flex: 1,
@@ -20,21 +20,33 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
+  imageWrapper:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom:40,
+    backgroundColor: '#efefef',
+  },
+  tinyLogo: {
+    width: 100,
+    height: 100,
+  },
 });
 
-const SettingsPage = ({ navigation }) => {
+const SettingsPage = ({navigation}) => {
   return (
-    <Container>
-      <ImageBackground
-        source={require('../../assets/images/homeScreenPhoto2.jpg')}
-        style={styles.backgroundImage}>
+      <Container>
         <Content contentContainerStyle={styles.container}>
-          <SettingsForm />
+          <View style={styles.imageWrapper}>
+            <Image
+                style={styles.tinyLogo}
+                source={require('../../assets/images/Icon.png')}
+            />
+          </View>
+          <SettingsForm/>
         </Content>
-      </ImageBackground>
-    </Container>
+      </Container>
   );
 };
 

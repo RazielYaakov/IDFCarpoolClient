@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Card, CardItem, Container, Content} from 'native-base';
+import {Card, CardItem, Content} from 'native-base';
 import {Button, StyleSheet, Text} from 'react-native';
 import ControlledPicker from '../../components/ControlledPicker';
 import ControlledDateModal from '../../components/ControlledDateModal';
