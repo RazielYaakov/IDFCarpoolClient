@@ -13,8 +13,7 @@ export default function StackNavigator({ initialRouteName }) {
         <NavigationContainer>
             <Stack.Navigator initialRouteName='Main'>
                 <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
-                <Stack.Screen name="Main" component={RequestPage}
-                    options={{ headerTitle: ()=>(<Header/>), headerTitleAlign: 'center', headerLeft: null }} />
+                <Stack.Screen name="Main" component={RequestPage} options={{ headerShown: false }}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

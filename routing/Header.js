@@ -1,29 +1,46 @@
 
 import * as React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import {HeeboText} from '../components/HeeboText'
+import { HeeboText } from '../components/HeeboText'
 
 export default function Header() {
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={require('../assets/images/idf-logo.png')}/>
-            <Image style={styles.image} source={require('../assets/images/Icon.png')} />
-            <HeeboText  style={styles.text} isBold={true}>IDF Carpool</HeeboText>
-
+            <View style={styles.imageContainer}>
+                <Image style={styles.imageIDF} source={require('../assets/images/idf-logo.png')} />
+                <Image style={styles.imageIDF} source={require('../assets/images/Icon.png')} />
+                <Image style={styles.imageCar} source={require('../assets/images/playstore.png')} />
+            </View>
+            <HeeboText style={styles.text} isBold={true}>IDF Carpool</HeeboText>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
-    container:{
-        flexDirection: 'row'
+    container: {
+        paddingTop: 25,
+        paddingBottom: 5,
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    image:{
-        height:45,
-        width:45,
+    imageCar: {
+        height: 50,
+        width: 50,
+        marginHorizontal: 5,
     },
-    text:{
+    imageIDF: {
+        marginTop: 5,
+        height: 40,
+        width: 40,
+        marginHorizontal: 5,
+    },
+    text: {
         fontSize: 30,
-        marginHorizontal: 20,
+        marginRight: 15,
+    },
+    imageContainer: {
+        flexDirection: 'row',
+        marginLeft: 10,
     }
 });
