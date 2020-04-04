@@ -1,10 +1,8 @@
-
 import * as React from 'react';
 import RequestPage from '../views/findRide/FindRidePage';
 import LoginPage from '../views/login/LoginPage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Header from './Header'
 
 const Stack = createStackNavigator();
 

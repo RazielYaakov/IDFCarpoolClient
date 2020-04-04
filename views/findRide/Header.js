@@ -1,15 +1,15 @@
 
 import * as React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { HeeboText } from '../components/HeeboText'
+import { HeeboText } from '../../components/HeeboText'
 
 export default function Header() {
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image style={styles.imageIDF} source={require('../assets/images/idf-logo.png')} />
-                <Image style={styles.imageIDF} source={require('../assets/images/Icon.png')} />
-                <Image style={styles.imageCar} source={require('../assets/images/playstore.png')} />
+                <Image style={styles.imageIDF} source={require('../../assets/images/idf-logo.png')} />
+                <Image style={styles.imageIDF} source={require('../../assets/images/Icon.png')} />
+                <Image style={styles.imageCar} source={require('../../assets/images/playstore.png')} />
             </View>
             <HeeboText style={styles.text} isBold={true}>IDF Carpool</HeeboText>
         </View>

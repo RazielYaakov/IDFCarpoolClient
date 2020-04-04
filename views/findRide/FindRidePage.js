@@ -6,7 +6,7 @@ import sendRideDataRequest from '../../requests/sendRideDataRequest';
 import SearchForm from './SearchForm';
 import AvailableRidesList from './AvailableRidesList';
 import LottieView from 'lottie-react-native';
-import Header from '../../routing/Header'
+import Header from './Header'
 
 const FindRidePage = () => {
   const { watch, control, handleSubmit, errors } = useForm();
