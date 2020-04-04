@@ -5,8 +5,8 @@ import {HeeboText} from '../../components/HeeboText';
 
 const styles = StyleSheet.create({
   tinyLogo: {
-    width: 120,
-    height: 120,
+    width: 95,
+    height: 95,
     marginHorizontal:10
   },
   headerWrapper: {

@@ -9,6 +9,5 @@ export const FIND_RIDE_API = 'findride';
 export const SHOW_MY_RIDES_API = 'showmyriderequests';
 export const ACCEPT_RIDE = 'acceptride';
 export const CANCEL_RIDE = 'cancelride';
-export const SERVER_URL = 'phone';
 export const ALL_BASES = ["צריפין", "תל השומר", "קריה", "שלישות רמת גן", "עיר הבהדים"];
 export const ALL_CITIES = ["תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון"];
