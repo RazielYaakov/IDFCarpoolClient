@@ -24,7 +24,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "il.idf.IDFCarpool",
+      "googleServicesFile": "./google-services.json"
+    },
+    "notification": {
+      "iosDisplayInForeground": true
     }
   }
 }

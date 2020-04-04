@@ -7,17 +7,18 @@ import SearchForm from './SearchForm';
 import AvailableRidesList from './AvailableRidesList';
 import LottieView from 'lottie-react-native';
 
-const FAKE_TELEPHONE = '0541234567';
+const phoneNumber = '0525217550';
+const homeToBase = true;
 
 const FindRidePage = () => {
   const {watch, control, handleSubmit, errors} = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [rides, setRides] = useState(undefined);
 
-  const searchRides = async ({origin, destination, date}) => {
+  const searchRides = async ({source, destination, date}) => {
+    alert(`source: ${source}, destination: ${destination}, date: ${date}, phoneNumber: ${phoneNumber}, homeToBase: ${homeToBase}`);
     setIsLoading(true);
-    const rides = await sendRideDataRequest(FAKE_TELEPHONE, date, origin,
-        destination);
+    const rides = await sendRideDataRequest({source, destination, date, phoneNumber, homeToBase});
     setIsLoading(false);
     setRides(rides.data);
   };
