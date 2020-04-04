@@ -2,7 +2,7 @@ import { Container, Content } from 'native-base';
 import React from 'react';
 import { ImageBackground, StyleSheet } from 'react-native';
 import StatusForm from './statusForm';
-import showMyRidesRequest from './showMyRidesRequest';
+import showMyRidesRequest from '../../requests/showMyRidesRequest';
 import RidesList from './RidesList';
 
 const FAKE_TELEPHONE = "0525217550"
