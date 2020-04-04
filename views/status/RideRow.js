@@ -7,27 +7,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     color: '#4b4b4b',
 
-  },
-  Text: {
-    textAlign: 'right',
-  },
-  text: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
+  }
 });
 
 const RideRow = ({}) => {
   return (
       <ListItem avatar>
         <Right>
-          <Text note>13:43</Text>
+          <Text>13:43</Text>
         </Right>
         <Body>
           <Text>עומרי אנגל</Text>
-          <Text note>אוהבי בנים
-            .</Text>
+          <Text>אוהבי בנים</Text>
         </Body>
         <Left>
           <Icon style={styles.Icon} name={'car'} type={'AntDesign'}/>

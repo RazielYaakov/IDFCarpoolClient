@@ -11,9 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/playstore.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/playstore.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,6 +25,13 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "il.idf.IDFCarpool",
+      "googleServicesFile": "./google-services.json"
+    },
+    "notification": {
+      "iosDisplayInForeground": true
     }
   }
 }
