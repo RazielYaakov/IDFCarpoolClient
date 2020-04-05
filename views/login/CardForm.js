@@ -2,9 +2,8 @@ import { Body, Button, Card, CardItem, Form, Icon, Input, Item, Label, ListItem,
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AsyncStorage, ScrollView, StyleSheet } from 'react-native';
-
 import { HeeboText } from '../../components/HeeboText';
-import { PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
+import { PHONE_LOCAL_STORAGE_NAME, MAIN_PAGE_NAME } from '../../constants/constants';
 import pushNotificationRegister from '../../pushNotifications/pushNotificationRegister';
 import DriverSettings from './DriverSettings';
 
@@ -27,9 +26,9 @@ const CardForm = ({ navigation }) => {
     console.log(data);
     AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
     let token = pushNotificationRegister();
-
+    
     //send user data to server wih token
-    navigation.navigate('TabNavigator');
+    navigation.navigate(MAIN_PAGE_NAME);
   };
 
   return (

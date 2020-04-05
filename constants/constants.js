@@ -1,5 +1,5 @@
 export const LOGIN_ROUTE_NAME = 'Login';
-export const TAB_NAVIGATOR_ROUTE_NAME = 'TabNavigator';
+export const MAIN_PAGE_NAME = 'Main';
 export const PHONE_LOCAL_STORAGE_NAME = 'phone';
 export const SERVER_URL = 'https://idfcarpool.azurewebsites.net';
 export const LOGIN_API = 'login';
