@@ -1,15 +1,12 @@
-import { Container, Content } from 'native-base';
 import React from 'react';
-import { ImageBackground, StyleSheet } from 'react-native';
-import StatusForm from './statusForm';
-import showMyRidesRequest from '../../requests/showMyRidesRequest';
+import { StyleSheet } from 'react-native';
+
 import RidesList from './RidesList';
 
-const FAKE_TELEPHONE = "0525217550"
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'#efefef'
+    backgroundColor: '#efefef'
   },
   backgroundImage: {
     flex: 1,
@@ -23,29 +20,17 @@ const styles = StyleSheet.create({
   }
 });
 
-const StatusPage = ({ navigation }) => {
-  var myRides = getMyRideRequests(FAKE_TELEPHONE);
-  
+const StatusPage = () => {
+
   return (
-    <Container style={styles.container}>
-        <Content contentContainerStyle={styles.container}>
-          <RidesList/>
-        </Content>
-    </Container>
+    <Card style={styles.status}>
+      <ScrollView>
+        <RidesList style={styles.ridesStyle} />
+      </ScrollView>
+    </Card>
   );
 };
 
-const getMyRideRequests = async (phoneNumber) => { d
-  try {
-    var myRides = await showMyRidesRequest(FAKE_TELEPHONE);
-    console.log(myRides);
-
-    return myRides;
-  }
-  catch (exception) {
-    console.log("Error connecting the server");
-  }
-}
 
 export default StatusPage;
 

@@ -17,13 +17,18 @@ const styles = StyleSheet.create({
   iconWrapper: {
     display: 'flex',
     flexDirection: 'row',
+    marginBottom: 20,
   },
   lottie: {
-    height: 120,
+    height: 100,
   },
   name: {
     fontSize: 40,
     fontWeight: 'bold',
+    color: "#ffffff",
+  },
+  text: {
+    fontSize: 20,
     color: "#ffffff",
   }
 });
@@ -41,7 +46,7 @@ const HeaderIcon = () => {
           <LottieView
             ref={lottie}
             style={styles.lottie}
-            source={require('../../assets/lottie/3657-small-car.json')}
+            source={require('../../assets/lottie/4966-onboarding-car.json')}
             autoPlay
             loop={true}
           />
@@ -51,7 +56,8 @@ const HeaderIcon = () => {
           source={require('../../assets/images/Icon.png')}
         />
       </View>
-      <HeeboText style={styles.name} isBold={true}> IDF Carpool</HeeboText>
+      <HeeboText style={styles.name} isBold={true}>IDF Carpool</HeeboText>
+      <HeeboText style={styles.text}>הכביש הזה מתחיל כאן</HeeboText>
     </View>
 
   );

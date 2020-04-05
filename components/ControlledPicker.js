@@ -7,7 +7,7 @@ const onChange = args => args[0];
 const ControlledPicker = ({control, options, name}) => {
 
   return (<Controller as={
-    <Picker>
+    <Picker mode="dialog" style={{width: 150}}>
       {convertListToPickerOptions(options)}
     </Picker>
   }

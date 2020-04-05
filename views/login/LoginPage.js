@@ -26,8 +26,8 @@ const LoginPage = ({ navigation }) => {
         source={require('../../assets/images/homeScreenPhoto2.jpg')}
         style={styles.backgroundImage}>
         <Content contentContainerStyle={styles.container}>
-          <HeaderIcon />
-          <CardForm navigation={navigation} />
+        <HeaderIcon />
+        <CardForm navigation={navigation} />
         </Content>
       </ImageBackground>
     </Container>
