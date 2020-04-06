@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   },
   headerWrapper: {
     alignItems: 'center',
+    justifyContent: 'flex-start',
     flex: 1,
   },
   iconWrapper: {

@@ -10,10 +10,10 @@ import pushNotificationRegister from '../../pushNotifications/pushNotificationRe
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     console.log(data);
     AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
-    let token = await pushNotificationRegister();
+    let token = pushNotificationRegister();
 
     //send user data to server with token
     navigation.navigate(MAIN_PAGE_NAME);
@@ -45,9 +45,9 @@ const CardForm = ({ navigation }) => {
           </Item>
         </Form>
       </CardItem>
-      <CardItem>
+      <CardItem style={{ backgroundColor: 'transparent' }}>
         <Body>
-          <Button iconRight block
+          <Button iconRight block style={styles.loginButton}
             onPress={handleSubmit(onSubmit)}>
             <HeeboText>התחבר</HeeboText>
             <Icon name='arrow-forward' />
@@ -62,32 +62,40 @@ export default CardForm;
 
 const styles = StyleSheet.create({
   cardStyle: {
-    width: '80%',
-    opacity: 0.9,
-    height: '35%',
-    marginBottom: 70,
-    backgroundColor: 'transparent'
+    alignSelf: 'center',
+    display: 'flex',
+    borderColor: 'transparent',
+    padding: 0,
+    marginTop: 30,
+    width: '90%',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   cardForm: {
     width: '100%',
-    position: 'relative',
+    backgroundColor: 'transparent',
   },
   input: {
     textAlign: 'right',
+    color: 'white'
   },
   label: {
     textAlign: 'left',
+    color: 'white'
   },
   item: {
     textAlign: 'right',
-    marginBottom: 10,
+    borderRadius: 0,
+    borderWidth: 0,
+    padding: 0,
+    color: 'white'
+  },
+  loginButton: {
+    padding: 0,
+    width: '100%',
+    alignSelf: 'center'
   },
   checkIcon: {
-    fontSize: 22,
-    color: '#fe6b6b',
-  },
-  userType: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
+    color: 'white',
+  }
 });
