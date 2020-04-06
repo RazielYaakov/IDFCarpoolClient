@@ -5,8 +5,7 @@ import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 
 import sendRideDataRequest from '../../requests/sendRideDataRequest';
-import AvailableRidesList from './AvailableRidesList';
-import Header from './Header';
+import Header from '../../routing/Header';
 import SearchForm from './SearchForm';
 
 const FindRidePage = () => {
@@ -36,13 +35,8 @@ const FindRidePage = () => {
 
   return (
     <Container>
-      <Header />
-      {rides ?
-        <AvailableRidesList rides={rides}
-          emptyRides={() => setRides(null)} /> :
-        <SearchForm submit={handleSubmit(searchRides)} control={control}
-          watch={watch} errors={errors} />}
-
+      <SearchForm submit={handleSubmit(searchRides)} control={control}
+        watch={watch} errors={errors} />
     </Container>
   );
 };

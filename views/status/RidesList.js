@@ -1,20 +1,14 @@
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { List } from 'native-base';
 import { Row, Rows, Table } from 'react-native-table-component';
 
 import showMyRidesRequest from '../../requests/showMyRidesRequest';
+import CancelButton from './CancelButton';
+import InfoButton from './InfoButton';
 
 const styles = StyleSheet.create({
-  Icon: {
-    marginHorizontal: 20,
-    color: '#4b4b4b',
-  },
-  wrapper: { flexDirection: 'row' },
-  head: { height: 40, marginHorizontal: 10 },
-  text: { textAlign: 'center', fontFamily: 'Heebo', fontSize: 15 },
-  titleText: { textAlign: 'center', fontFamily: 'Heebo-Bold', fontSize: 17 },
-  row: { height: 50, marginHorizontal: 10, borderTopWidth: 1 },
   lottie: {
     width: 250,
     height: 250,
@@ -59,24 +53,30 @@ const RidesList = () => {
   }
 
   return (
-    <Table borderStyle={{ borderWidth: 0 }}>
-      <Row data={tableTitles} flexArr={[1.5, 1.5, 1, 1.5]} style={styles.head} textStyle={styles.titleText} />
-      <Rows data={tableData} flexArr={[1.5, 1.5, 1, 1.5]} textStyle={styles.text} />
-    </Table>
+    <List>
+    </List>
   );
 };
 
 const fillTableData = (rides) => {
   var tableData = [];
   const valuesPosition = 1;
-  var r = 0;
 
   rides.forEach(ride => {
     var values = ride[valuesPosition]
-    tableData.push([values.passenger.name, values.passenger.phoneNumber, "data", values.accepted + ":"]);
+    tableData.push([values.passenger.name, values.passenger.phoneNumber, <InfoButton ride={values} />, <CancelButton handleCancel={cancelClick} />]);
   });
 
+  console.log(tableData);
   return tableData;
+}
+
+const acceptClick = () => {
+  alert('accept');
+}
+
+const cancelClick = () => {
+  alert('cancel');
 }
 
 export default RidesList;

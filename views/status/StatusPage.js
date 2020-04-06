@@ -1,31 +1,40 @@
+import { Card } from 'native-base';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 
 import RidesList from './RidesList';
+import RideRow from './RideRow';
 
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#efefef'
-  },
-  backgroundImage: {
+  statusCard: {
     flex: 1,
-    width: null,
-    height: null,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    width: '100%',
+    elevation: 0.001,
+    backgroundColor: 'transparent',
+    opacity: 0.75
   },
-  text: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 10
-  }
 });
 
 const StatusPage = () => {
 
   return (
-    <Card style={styles.status}>
+    <Card style={styles.statusCard}>
       <ScrollView>
-        <RidesList style={styles.ridesStyle} />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RidesList />
       </ScrollView>
     </Card>
   );

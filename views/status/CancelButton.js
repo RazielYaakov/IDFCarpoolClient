@@ -1,10 +1,12 @@
 import { Button, Icon } from 'native-base';
 import React, { Component, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Modal, StyleSheet, View } from 'react-native';
 
 import { HeeboText } from '../../components/HeeboText';
 
-const InfoButton = ({ ride }) => {
+const CancelButton = ({ handleCancel }) => {
+    const { handleSubmit } = useForm();
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -12,32 +14,35 @@ const InfoButton = ({ ride }) => {
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <View style={styles.dataLine}>
-                            <HeeboText style={styles.textStyle}>רזיאל יעקב</HeeboText>
-                            <HeeboText style={styles.textStyle}>0525217550</HeeboText>
+                        <HeeboText isBold={true}>אתה בטוח שאתה רוצה לבטל?</HeeboText>
+                        <View style={styles.buttons}>
+                            <Button danger style={styles.closeButton}
+                                onPress={handleSubmit(handleCancel)}>
+                                <HeeboText isBold={true}>כן אחי</HeeboText>
+                            </Button>
+                            <Button success style={styles.closeButton} onPress={() => { setModalVisible(false); }}>
+                                <HeeboText isBold={true}>לא, התבלבלתי</HeeboText>
+                            </Button>
                         </View>
-                        <View style={styles.dataLine}>
-                            <HeeboText style={styles.textStyle}>מ-אשקלון</HeeboText>
-                            <HeeboText style={styles.textStyle}>ל-צריפין</HeeboText>
-                        </View>
-                        <View style={styles.dataLine}>
-                            <HeeboText style={styles.textStyle}>יום שלישי, 18:30</HeeboText>
-                        </View>
-                        <Button dark style={styles.closeButton} onPress={() => { setModalVisible(!modalVisible); }}>
-                            <HeeboText>סגור</HeeboText>
-                        </Button>
                     </View>
                 </View>
             </Modal>
 
-            <Button dark transparent onPress={() => { setModalVisible(true); }}>
-                <Icon name='md-information-circle' />
+            <Button danger transparent style={styles.buttonStyle} onPress={() => setModalVisible(true)}>
+                <Icon style={styles.icon} name='dislike2' type={'AntDesign'} />
             </Button>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    buttonStyle: {
+        width: 80,
+        alignSelf: 'center',
+        paddingTop: 0,
+        paddingBottom: 0,
+        elevation: 0,
+    },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
@@ -45,7 +50,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: '70%',
-        height: '30%',
+        height: '17%',
         backgroundColor: '#C7C4C4',
         alignItems: "center",
         borderRadius: 10,
@@ -71,12 +76,12 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: "center",
         color: 'white',
-        borderRadius: 15
+        borderRadius: 15,
+        marginHorizontal: 10
     },
-    dataLine: {
-        flexDirection: 'row',
-        flex: 1,
+    buttons: {
+        flexDirection: 'row'
     }
 });
 
-export default InfoButton;
+export default CancelButton;

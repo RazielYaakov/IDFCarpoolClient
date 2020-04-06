@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { AsyncStorage, StyleSheet } from 'react-native';
 
 import { HeeboText } from '../../components/HeeboText';
-import { MAIN_PAGE_NAME, PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
+import { TAB_NAVIGATOR_ROUTE_NAME , PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
 import pushNotificationRegister from '../../pushNotifications/pushNotificationRegister';
 
 const CardForm = ({ navigation }) => {
@@ -16,7 +16,7 @@ const CardForm = ({ navigation }) => {
     let token = pushNotificationRegister();
 
     //send user data to server with token
-    navigation.navigate(MAIN_PAGE_NAME);
+    navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
   };
 
   return (
