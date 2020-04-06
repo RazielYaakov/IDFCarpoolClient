@@ -1,51 +1,45 @@
-import { Container, Content } from 'native-base';
+import { Card } from 'native-base';
 import React from 'react';
-import { ImageBackground, StyleSheet } from 'react-native';
-import StatusForm from './statusForm';
-import showMyRidesRequest from '../../requests/showMyRidesRequest';
-import RidesList from './RidesList';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 
-const FAKE_TELEPHONE = "0525217550"
+import RidesList from './RidesList';
+import RideRow from './RideRow';
+
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor:'#efefef'
-  },
-  backgroundImage: {
+  statusCard: {
     flex: 1,
-    width: null,
-    height: null,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    width: '100%',
+    elevation: 0.001,
+    backgroundColor: 'transparent',
+    opacity: 0.75
   },
-  text: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 10
-  }
 });
 
-const StatusPage = ({ navigation }) => {
-  var myRides = getMyRideRequests(FAKE_TELEPHONE);
-  
+const StatusPage = () => {
+
   return (
-    <Container style={styles.container}>
-        <Content contentContainerStyle={styles.container}>
-          <RidesList/>
-        </Content>
-    </Container>
+    <Card style={styles.statusCard}>
+      <ScrollView>
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RideRow />
+        <RidesList />
+      </ScrollView>
+    </Card>
   );
 };
 
-const getMyRideRequests = async (phoneNumber) => { d
-  try {
-    var myRides = await showMyRidesRequest(FAKE_TELEPHONE);
-    console.log(myRides);
-
-    return myRides;
-  }
-  catch (exception) {
-    console.log("Error connecting the server");
-  }
-}
 
 export default StatusPage;
 

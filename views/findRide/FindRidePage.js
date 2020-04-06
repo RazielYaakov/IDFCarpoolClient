@@ -1,12 +1,12 @@
+import LottieView from 'lottie-react-native';
+import { Container } from 'native-base';
 import React, { useState } from 'react';
-import { Container, Content } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
+
 import sendRideDataRequest from '../../requests/sendRideDataRequest';
+import Header from '../../routing/Header';
 import SearchForm from './SearchForm';
-import AvailableRidesList from './AvailableRidesList';
-import LottieView from 'lottie-react-native';
-import Header from './Header'
 
 const FindRidePage = () => {
   const { watch, control, handleSubmit, errors } = useForm();
@@ -35,13 +35,8 @@ const FindRidePage = () => {
 
   return (
     <Container>
-      <Header />
-      {rides ?
-        <AvailableRidesList rides={rides}
-          emptyRides={() => setRides(null)} /> :
-        <SearchForm submit={handleSubmit(searchRides)} control={control}
-          watch={watch} errors={errors} />}
-
+      <SearchForm submit={handleSubmit(searchRides)} control={control}
+        watch={watch} errors={errors} />
     </Container>
   );
 };

@@ -1,6 +1,6 @@
 import { Container, Content } from 'native-base';
 import React from 'react';
-import { ImageBackground, StyleSheet } from 'react-native';
+import { Dimensions, ImageBackground, StyleSheet, ScrollView } from 'react-native';
 
 import CardForm from './CardForm';
 import HeaderIcon from './HeaderIcon';
@@ -10,13 +10,15 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'flex-start',
     marginBottom: 0
   },
   backgroundImage: {
     flex: 1,
-    width: null,
-    height: null,
-  }
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    resizeMode: "stretch"
+  },
 });
 
 const LoginPage = ({ navigation }) => {
@@ -25,10 +27,12 @@ const LoginPage = ({ navigation }) => {
       <ImageBackground
         source={require('../../assets/images/homeScreenPhoto2.jpg')}
         style={styles.backgroundImage}>
-        <Content contentContainerStyle={styles.container}>
-          <HeaderIcon />
-          <CardForm navigation={navigation} />
-        </Content>
+        <ScrollView>
+          <Content contentContainerStyle={styles.container}>
+            <HeaderIcon />
+            <CardForm navigation={navigation} />
+          </Content>
+        </ScrollView>
       </ImageBackground>
     </Container>
   );

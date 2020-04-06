@@ -3,8 +3,9 @@ import { AppLoading } from 'expo';
 import AppContainer from './routing/AppContainer';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { I18nManager, AsyncStorage } from 'react-native'
-import { LOGIN_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, MAIN_PAGE_NAME } from './constants/constants'
+import { I18nManager, AsyncStorage, View, StyleSheet } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LOGIN_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, TAB_NAVIGATOR_ROUTE_NAME } from './constants/constants'
 
 const loadFonts = async (setFontReady) => {
   await Font.loadAsync({
@@ -23,7 +24,7 @@ const loadStoredPhoneNumber = async (setPhoneNumberReady, setInitialRouteName) =
   const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
 
   if (phoneNumber) {
-    setInitialRouteName(MAIN_PAGE_NAME);
+    setInitialRouteName(TAB_NAVIGATOR_ROUTE_NAME);
   }
 
   setPhoneNumberReady(true);

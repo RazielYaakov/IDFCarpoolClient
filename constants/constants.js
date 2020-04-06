@@ -1,5 +1,5 @@
 export const LOGIN_ROUTE_NAME = 'Login';
-export const MAIN_PAGE_NAME = 'Main';
+export const TAB_NAVIGATOR_ROUTE_NAME = 'TabNavigator';
 export const PHONE_LOCAL_STORAGE_NAME = 'phone';
 export const SERVER_URL = 'https://idfcarpool.azurewebsites.net';
 export const LOGIN_API = 'login';
@@ -10,4 +10,6 @@ export const SHOW_MY_RIDES_API = 'showmyriderequests';
 export const ACCEPT_RIDE = 'acceptride';
 export const CANCEL_RIDE = 'cancelride';
 export const ALL_BASES = ["צריפין", "תל השומר", "קריה", "שלישות רמת גן", "עיר הבהדים"];
-export const ALL_CITIES = ["תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון"];
+export const ALL_CITIES = ["תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון",
+"תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון",
+"תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון"];
