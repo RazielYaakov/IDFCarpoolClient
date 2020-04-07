@@ -6,6 +6,7 @@ import { HeeboText } from '../../components/HeeboText';
 import AcceptButton from './AcceptButton';
 import CancelButton from './CancelButton';
 import WaitingInfoButton from './WaitingInfoButton';
+import RideAcceptedButton from './RideAcceptedButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,27 +35,66 @@ const styles = StyleSheet.create({
     width: '20%',
     height: '100%',
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: 5,
     paddingTop: 0,
   },
 });
 
-const RideRow = ({ }) => {
+const RideRow = ({ name, phoneNumber, source, destination, date, driverAccepted, passengerAccepted, rideAccepted }) => {
+
+  const getRoute = () => {
+    return 'מ' + source + ' ל' + destination;
+  }
+
+  const getTimeAndDate = () => {
+    var rideDate = new Date(date);
+    var minutes = rideDate.getMinutes();
+    minutes = minutes > 9 ? minutes : '0' + minutes;
+    var time = rideDate.getHours() + ':' + minutes;
+    var dayAndMonth = rideDate.getDate() + '/' + (rideDate.getMonth() + 1);
+    return time + ',' + dayAndMonth;
+  }
+
+  const getRideStatusButtons = () => {
+    if (!passengerAccepted) {
+      return (
+        <Left style={styles.leftSide}>
+          <AcceptButton handleAccept={acceptClick} />
+          <CancelButton handleCancel={cancelClick} />
+        </Left>
+      )
+    } else if (!driverAccepted) {
+      return (
+        <Left style={styles.leftSide}>
+          <WaitingInfoButton />
+          <CancelButton handleCancel={cancelClick} />
+        </Left>
+      )
+    } else if(!rideAccepted) {
+      return (
+        <Left style={styles.leftSide}>
+          <RideAcceptedButton />
+          <CancelButton handleCancel={cancelClick} />
+        </Left>
+      )
+    } else {
+      <Left style={styles.leftSide}>
+          <CancelButton handleCancel={cancelClick} />
+        </Left>
+    }
+  }
+
   return (
     <ListItem style={styles.container} avatar>
       <Right style={styles.rightSide}>
-        <HeeboText style={styles.phoneNumber}>רזיאל יעקב</HeeboText>
-        <HeeboText style={styles.phoneNumber}>0525217550</HeeboText>
+        <HeeboText style={styles.phoneNumber}>{name}</HeeboText>
+        <HeeboText style={styles.phoneNumber}>{phoneNumber}</HeeboText>
       </Right>
       <Body style={styles.body}>
-        <HeeboText style={styles.phoneNumber}>מאשקלון לצריפין</HeeboText>
-        <HeeboText style={styles.phoneNumber}>24.6, 18:00</HeeboText>
+        <HeeboText style={styles.phoneNumber}>{getRoute()}</HeeboText>
+        <HeeboText style={styles.phoneNumber}>{getTimeAndDate()}</HeeboText>
       </Body>
-      <Left style={styles.leftSide}>
-        <AcceptButton handleAccept={acceptClick} />
-        <CancelButton handleCancel={cancelClick}/>
-      </Left>
-
+      {getRideStatusButtons()}
     </ListItem>
   );
 };

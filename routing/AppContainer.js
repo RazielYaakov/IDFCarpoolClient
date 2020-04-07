@@ -21,7 +21,7 @@ function TabNavigator() {
                         <SimpleLineIcons size={24} name='magnifier' />
                     )
                 }} />
-            <Tab.Screen name="נסיעות" component={StatusPage}
+            <Tab.Screen name="טרמפים" component={StatusPage}
                 options={{
                     tabBarIcon: () => (
                         <MaterialCommunityIcons size={25} name='truck-delivery' />

@@ -1,12 +1,11 @@
 import LottieView from 'lottie-react-native';
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { List } from 'native-base';
-import { Row, Rows, Table } from 'react-native-table-component';
-
+import React, { useState } from 'react';
+import { AsyncStorage, StyleSheet, View } from 'react-native';
+import {HeeboText} from '../../components/HeeboText';
+import { PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
 import showMyRidesRequest from '../../requests/showMyRidesRequest';
-import CancelButton from './CancelButton';
-import InfoButton from './InfoButton';
+import RideRow from './RideRow';
 
 const styles = StyleSheet.create({
   lottie: {
@@ -20,25 +19,35 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1
   },
+  notFound: {
+    fontSize: 40,
+  }
 });
 
-const FAKE_TELEPHONE = "1";
-
 const RidesList = () => {
-  const tableTitles = ['שם', 'טלפון', 'מידע', 'סטטוס'];
   const [isLoading, setIsLoading] = useState(true);
-  const [myRides, setRides] = useState(undefined);
-  const [tableData, setTableData] = useState(undefined);
+  const [listRows, setListRows] = useState(undefined);
+  const [phoneNumberReady, setPhoneNumberReady] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(undefined);
+
+  const loadStoredPhoneNumber = async () => {
+    const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
+    setPhoneNumber(phoneNumber);
+    setPhoneNumberReady(true);
+  }
 
   const getUserRides = async ({ userType, phoneNumber }) => {
-    const myRides = await showMyRidesRequest({ userType, phoneNumber });
+    const myRides = await showMyRidesRequest({ userType, phoneNumber: 2 });
+    setListRows(createListRows(myRides));
     setIsLoading(false);
-    setRides(myRides.data);
-    setTableData(fillTableData(myRides));
   };
 
+  if (!phoneNumberReady) {
+    loadStoredPhoneNumber();
+  }
+
   if (isLoading) {
-    getUserRides({ "userType": "passenger", "phoneNumber": "1" });
+    getUserRides({ "userType": "passenger", phoneNumber });
 
     return (
       <View style={styles.lottieContainer}>
@@ -50,25 +59,48 @@ const RidesList = () => {
         />
       </View>
     );
+  } else if (listRows != undefined && listRows.length == 0) {
+    return (
+      <View style={styles.lottieContainer}>
+        <LottieView
+          style={styles.lottie}
+          source={require('../../assets/lottie/no-rides-founded.json')}
+          autoPlay
+          loop={false}
+        />
+        <HeeboText style={styles.notFound}>אין לך טרמפים...</HeeboText>
+        <HeeboText style={styles.notFound}>לך חפש!</HeeboText>
+      </View>
+    )
   }
 
   return (
     <List>
+      {listRows}
     </List>
   );
 };
 
-const fillTableData = (rides) => {
-  var tableData = [];
+const createListRows = (rides) => {
+  var listRows = [];
   const valuesPosition = 1;
 
   rides.forEach(ride => {
     var values = ride[valuesPosition]
-    tableData.push([values.passenger.name, values.passenger.phoneNumber, <InfoButton ride={values} />, <CancelButton handleCancel={cancelClick} />]);
+
+    listRows.push(<RideRow
+      name={values.driver.name}
+      phoneNumber={values.driver.phoneNumber}
+      source={values.source}
+      destination={values.destination}
+      date={values.dateTime}
+      driverAccepted={values.driver.accepted}
+      passengerAccepted={values.passenger.accepted}
+      rideAccepted={values.accepted}
+    />);
   });
 
-  console.log(tableData);
-  return tableData;
+  return listRows;
 }
 
 const acceptClick = () => {
