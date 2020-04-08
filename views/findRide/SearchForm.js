@@ -97,14 +97,16 @@ const SearchForm = ({ control, onSubmit }) => {
     }
 
     setModalVisible(true);
-    return;
   };
 
   const findRide = (data) => {
     if(isValidSubmit(data)){
       //callFindRideRequest
       Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
+      return;
     }
+
+    setModalVisible(true);
   };
 
   const getSubmitButton = () => {

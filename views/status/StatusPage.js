@@ -31,11 +31,19 @@ const styles = StyleSheet.create({
 });
 
 const StatusPage = () => {
+  const [isDriverSelected, setDriverSelected] = useState(false);
+
+
+  const changeUserType = (isDriverSelected) => {
+    console.log('a' + isDriverSelected);
+    setDriverSelected(isDriverSelected);
+  }
+
   return (
     <Card style={styles.statusCard}>
-      <TypeOfUser />
+      <TypeOfUser isDriver={isDriverSelected} handleChange={changeUserType}/>
       <ScrollView>
-        <RidesList />
+        <RidesList isDriver={isDriverSelected}/>
       </ScrollView>
     </Card>
   );

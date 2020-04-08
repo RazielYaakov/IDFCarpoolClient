@@ -2,7 +2,7 @@ import LottieView from 'lottie-react-native';
 import { List } from 'native-base';
 import React, { useState } from 'react';
 import { AsyncStorage, StyleSheet, View } from 'react-native';
-import {HeeboText} from '../../components/HeeboText';
+import { HeeboText } from '../../components/HeeboText';
 import { PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
 import showMyRidesRequest from '../../requests/showMyRidesRequest';
 import RideRow from './RideRow';
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const RidesList = () => {
+const RidesList = ({ isDriver }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [listRows, setListRows] = useState(undefined);
   const [phoneNumberReady, setPhoneNumberReady] = useState(false);
@@ -37,16 +37,21 @@ const RidesList = () => {
   }
 
   const getUserRides = async ({ userType, phoneNumber }) => {
-    const myRides = await showMyRidesRequest({ userType, phoneNumber: 2 });
+    const myRides = await showMyRidesRequest({ userType, phoneNumber });
     setListRows(createListRows(myRides));
     setIsLoading(false);
   };
 
-  if (!phoneNumberReady) {
-    loadStoredPhoneNumber();
+  if(isDriver) {
+    console.log(isDriver);
+    return(<HeeboText>רזי אתה מלך</HeeboText>)
   }
 
   if (isLoading) {
+    if (!phoneNumberReady) {
+      loadStoredPhoneNumber();
+    }
+
     getUserRides({ "userType": "passenger", phoneNumber });
 
     return (
@@ -101,14 +106,6 @@ const createListRows = (rides) => {
   });
 
   return listRows;
-}
-
-const acceptClick = () => {
-  alert('accept');
-}
-
-const cancelClick = () => {
-  alert('cancel');
 }
 
 export default RidesList;

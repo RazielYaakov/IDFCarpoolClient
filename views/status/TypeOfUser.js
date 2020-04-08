@@ -4,12 +4,13 @@ import { StyleSheet } from 'react-native';
 
 import { HeeboText } from '../../components/HeeboText';
 
-const TypeOfUser = () => {
+const TypeOfUser = ({handleChange, isDriver}) => {
     const [isDriverSelected, setDriverSelected] = useState(false);
 
     const handleRadio = (userType) => {
         if (userType == 'driver' && !isDriverSelected || userType == 'passenger' && isDriverSelected) {
             setDriverSelected(!isDriverSelected);
+            handleChange(isDriverSelected);
         }
     };
 
