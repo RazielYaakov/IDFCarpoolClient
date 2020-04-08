@@ -2,18 +2,22 @@ import { Body, Button, Card, CardItem, Form, Icon, Input, Item, Label } from 'na
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AsyncStorage, StyleSheet } from 'react-native';
-
+import loginRequest from '../../requests/loginRequest';
 import { HeeboText } from '../../components/HeeboText';
-import { TAB_NAVIGATOR_ROUTE_NAME , PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
+import { TAB_NAVIGATOR_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, USERNAME_LOCAL_STORAGE_NAME, TOKEN_LOCAL_STORAGE_NAME } from '../../constants/constants';
 import pushNotificationRegister from '../../pushNotifications/pushNotificationRegister';
 
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
+  const onSubmit = async (data) => {
     let token = pushNotificationRegister();
+
+    AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
+    AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, data.name);
+    AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, token);
+
+    var loginRequestResponse = await loginRequest({ "phoneNumber": data.phoneNumber, "name": data.name, token });
 
     //send user data to server with token
     navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
@@ -62,6 +66,7 @@ export default CardForm;
 
 const styles = StyleSheet.create({
   cardStyle: {
+    elevation: 0,
     alignSelf: 'center',
     display: 'flex',
     borderColor: 'transparent',

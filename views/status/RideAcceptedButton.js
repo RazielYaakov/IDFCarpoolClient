@@ -5,37 +5,35 @@ import { Modal, StyleSheet, View } from 'react-native';
 
 import { HeeboText } from '../../components/HeeboText';
 
-const CancelButton = ({ handleCancel }) => {
-    const { handleSubmit } = useForm();
+const RideAcceptedButton = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.centeredView}>
-            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { }}>
+            <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <HeeboText isBold={true} style={{color: 'white'}}>אתה בטוח שאתה רוצה לבטל?</HeeboText>
+                        <HeeboText isBold={true} style={{color: 'white'}}>הטרמפ אושר!</HeeboText>
                         <View style={styles.buttons}>
-                            <Button danger style={styles.closeButton}
-                                onPress={handleSubmit(handleCancel)}>
-                                <HeeboText isBold={true}>כן אחי</HeeboText>
-                            </Button>
                             <Button light style={styles.closeButton} onPress={() => { setModalVisible(false); }}>
-                                <HeeboText isBold={true}  style={{color: '#CD4848'}}>לא, התבלבלתי</HeeboText>
+                                <HeeboText isBold={true} style={{color: '#49A455'}}>סגור</HeeboText>
                             </Button>
                         </View>
                     </View>
                 </View>
             </Modal>
 
-            <Button danger transparent style={styles.buttonStyle} onPress={() => setModalVisible(true)}>
-                <Icon style={styles.icon} name='cancel' type={'MaterialIcons'} />
+            <Button transparent style={styles.buttonStyle} onPress={() => setModalVisible(true)}>
+                <Icon style={styles.icon} name='checkcircle' type={'AntDesign'} />
             </Button>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    icon: {
+        color: '#05A61A',
+    },
     buttonStyle: {
         width: 80,
         alignSelf: 'center',
@@ -49,9 +47,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalView: {
-        width: '70%',
+        width: '40%',
         height: '17%',
-        backgroundColor: '#9A4343',
+        backgroundColor: '#49A455',
         alignItems: "center",
         borderRadius: 10,
         shadowColor: "#000",
@@ -75,16 +73,12 @@ const styles = StyleSheet.create({
     closeButton: {
         marginBottom: 15,
         textAlign: "center",
-        color: 'white',
         borderRadius: 15,
         marginHorizontal: 10
     },
     buttons: {
         flexDirection: 'row'
-    },
-    icon:{
-        fontSize: 30,
     }
 });
 
-export default CancelButton;
+export default RideAcceptedButton;

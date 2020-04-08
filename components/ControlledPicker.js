@@ -2,9 +2,12 @@ import React from 'react';
 import {Picker} from 'native-base';
 import {Controller} from 'react-hook-form';
 
-const onChange = args => args[0];
+const onChange = (args, handlePick) => {
+  handlePick(args[0]);
+  return args[0];
+};
 
-const ControlledPicker = ({control, options, name}) => {
+const ControlledPicker = ({control, options, name, handlePick}) => {
 
   return (<Controller as={
     <Picker mode="dialog" style={{width: 150}}>
@@ -13,10 +16,10 @@ const ControlledPicker = ({control, options, name}) => {
   }
                       control={control}
                       name={name}
-                      onChange={onChange}
+                      onChange={(selectedValue) => onChange(selectedValue, handlePick)}
                       onChangeName={'onValueChange'}
                       valueName={'selectedValue'}
-                      defaultValue={options[0]}
+                      defaultValue={"נא לבחור"}
   />);
 };
 

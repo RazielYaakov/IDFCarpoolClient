@@ -1,9 +1,10 @@
-import { Card } from 'native-base';
-import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { Card, Radio, View, CardItem } from 'native-base';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 
+import { HeeboText } from '../../components/HeeboText';
 import RidesList from './RidesList';
-import RideRow from './RideRow';
+import TypeOfUser from './TypeOfUser';
 
 
 const styles = StyleSheet.create({
@@ -18,28 +19,35 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     opacity: 0.75
   },
+  cardItem: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    marginVertical: 3,
+  },
 });
 
 const StatusPage = () => {
+  const [isDriverSelected, setDriverSelected] = useState(false);
+
+
+  const changeUserType = (isDriverSelected) => {
+    console.log('a' + isDriverSelected);
+    setDriverSelected(isDriverSelected);
+  }
 
   return (
     <Card style={styles.statusCard}>
+      <TypeOfUser isDriver={isDriverSelected} handleChange={changeUserType}/>
       <ScrollView>
-        <RideRow />
-        <RideRow />
-        <RideRow />
-        <RideRow />
-        <RideRow />
-        <RideRow />
-        <RideRow />
-        <RideRow />
-        <RideRow />
-        <RidesList />
+        <RidesList isDriver={isDriverSelected}/>
       </ScrollView>
     </Card>
   );
 };
-
 
 export default StatusPage;
 
