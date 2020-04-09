@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { Card } from 'native-base';
-import { HeeboText } from '../components/HeeboText';
+import { HeeboText } from './HeeboText';
 
 export default function Header() {
     return (
-        <Card style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image style={styles.imageIDF} source={require('../assets/images/idf-logo.png')} />
                 <Image style={styles.imageIDF} source={require('../assets/images/Icon.png')} />
                 <Image style={styles.imageCar} source={require('../assets/images/playstore.png')} />
             </View>
             <HeeboText style={styles.text}>IDF Carpool</HeeboText>
-        </Card>
+        </View>
     )
 };
 
@@ -23,32 +23,31 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: 'transparent',
+        backgroundColor: '#eee',
         opacity: 0.95,
-        marginTop: 0,
-        marginBottom: 0,
+        marginTop: 20,
         elevation: 0.001,
-        flex:1,
     },
     imageCar: {
         height: 45,
         width: 40,
-        marginLeft: 2,
+        marginLeft: 5,
     },
     imageIDF: {
         height: 40,
         width: 40,
         marginTop: 5,
+        marginLeft: 5,
     },
     text: {
         fontSize: 25,
-        marginRight: 15,
+        marginRight: 30,
         backgroundColor: 'transparent',
         
     },
     imageContainer: {
         flexDirection: 'row',
         backgroundColor: 'transparent',
-        marginLeft: 10,
+        marginLeft: 30,
     }
 });

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { tz } from 'moment-timezone';
 import { Button, Card, CardItem, CheckBox, Container, Icon, Radio } from 'native-base';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,12 +14,14 @@ import { ALL_CITIES } from '../../constants/constants';
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 7;
 
 const SearchForm = ({ control, onSubmit }) => {
-  const { register, setValue, handleSubmit } = useForm({
+  const { register, setValue, getValues, handleSubmit } = useForm({
     defaultValues: {
       userType: 'passenger',
       permanentOffer: false,
     }
   });
+
+  const [dateTimeText, setDateTimeText] = useState();
   const [isDateVisible, setDateVisibility] = useState(false);
   const [isDriverSelected, setDriverSelected] = useState(false);
   const [isPermanentOffer, setPermanentOffer] = useState(false);
@@ -41,6 +44,7 @@ const SearchForm = ({ control, onSubmit }) => {
 
   const handleDateChoose = (chosenDate) => {
     setValue('dateTime', chosenDate, true);
+    setDateTimeText(moment(chosenDate.toString()).format('LLL'));
   };
 
   const handleRadio = (userType) => {
@@ -104,7 +108,7 @@ const SearchForm = ({ control, onSubmit }) => {
   };
 
   const findRide = (data) => {
-    if(isValidSubmit(data)){
+    if (isValidSubmit(data)) {
       //callFindRideRequest
       Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
       return;
@@ -154,9 +158,11 @@ const SearchForm = ({ control, onSubmit }) => {
               options={ALL_CITIES} handlePick={handleDestination} />
           </CardItem>
           <CardItem style={styles.cardItem}>
-            <Button iconRight dark transparent onPress={() => setDateVisibility(true)}>
-              <HeeboText isBold={true} style={{ width: 69, fontSize: 17 }}>מתי?</HeeboText>
-              <Icon name='calendar' type={'FontAwesome'} />
+            <Button style={{ justifyContent: 'flex-start', flex: 1, marginLeft: 10, }} iconRight dark transparent onPress={() => setDateVisibility(true)}>
+              <HeeboText isBold={true} style={{ width: 70, fontSize: 17 }}>מתי?</HeeboText>
+              <View style={styles.dateTimeText}>
+                <HeeboText isBold={true} style={{fontSize: 14}}>{dateTimeText}</HeeboText>
+              </View>
             </Button>
           </CardItem>
           {getSubmitButton()}
@@ -188,6 +194,15 @@ const SearchForm = ({ control, onSubmit }) => {
 export default SearchForm;
 
 const styles = StyleSheet.create({
+  dateTimeText: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 7,
+    width: 200,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   userTypeCard: {
     justifyContent: 'center',
     alignItems: 'center',

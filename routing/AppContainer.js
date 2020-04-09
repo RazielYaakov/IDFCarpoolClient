@@ -7,7 +7,7 @@ import * as React from 'react';
 import RequestPage from '../views/findRide/FindRidePage';
 import LoginPage from '../views/login/LoginPage';
 import StatusPage from '../views/status/StatusPage';
-import Header from './Header';
+import Header from '../components/Header';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -36,8 +36,7 @@ export default function StackNavigator({ initialRouteName }) {
         <NavigationContainer>
             <Stack.Navigator initialRouteName={initialRouteName}>
                 <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
-                <Stack.Screen name="TabNavigator" component={TabNavigator}
-                    options={{ headerTitle: () => (<Header />), headerTitleAlign: 'center', headerLeft: null }} />
+                <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
