@@ -3,6 +3,7 @@ import { tz } from 'moment-timezone';
 import { Button, Card, CardItem, CheckBox, Container, Icon, Radio } from 'native-base';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import {TouchableOpacity} from 'react-native';
 import { ImageBackground, Modal, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
@@ -59,36 +60,6 @@ const SearchForm = ({ control, onSubmit }) => {
     }
   }
 
-  const showAlwaysOffer = () => {
-    if (isDriverSelected) {
-      return (
-        <CardItem style={styles.cardItem}>
-          <CheckBox ref={register({ name: 'permanentOffer' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
-          <HeeboText style={{ marginLeft: 15 }} isBold={true}>הצע באופן קבוע</HeeboText>
-        </CardItem>
-      );
-    }
-  }
-
-  const showErrorModal = () => {
-    if (modalVisible) {
-      return (
-        <View style={styles.centeredView}>
-          <Modal animationType="slide" transparent={true} visible={modalVisible}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <HeeboText isBold={true} style={{ color: 'white' }}>לא מילאת פרטים כמו שצריך...</HeeboText>
-                <Button danger style={styles.closeButton} onPress={() => { setModalVisible(false) }}>
-                  <HeeboText isBold={true}>סגור</HeeboText>
-                </Button>
-              </View>
-            </View>
-          </Modal>
-        </View>
-      );
-    }
-  }
-
   const isValidSubmit = (data) => {
     return data.source != undefined && data.destination != undefined && data.dateTime != undefined;
   };
@@ -114,21 +85,7 @@ const SearchForm = ({ control, onSubmit }) => {
   };
 
   const getSubmitButton = () => {
-    if (isDriverSelected) {
-      return (
-        <Button style={styles.submitButton} onPress={handleSubmit(createNewRideOption)} dark >
-          <HeeboText style={{ paddingLeft: 10 }} isBold={true}>הצע טרמפ</HeeboText>
-          <Icon style={{ marginLeft: 0 }} name="notification" type={'AntDesign'} />
-        </Button>
-      );
-    }
-
-    return (
-      <Button style={styles.submitButton} onPress={handleSubmit(findRide)} dark>
-        <HeeboText style={{ paddingLeft: 10 }} isBold={true}>חפש טרמפ</HeeboText>
-        <Icon style={{ marginLeft: 0 }} name="search1" type={'AntDesign'} />
-      </Button>
-    )
+    return
   }
 
   return (
@@ -139,31 +96,55 @@ const SearchForm = ({ control, onSubmit }) => {
         <Card style={styles.userTypeCard}>
           <CardItem style={styles.cardItem}>
             <Radio selectedColor={'black'} ref={register({ name: 'userType' })} selected={!isDriverSelected} onPress={() => handleRadio('passenger')} />
-            <HeeboText style={{ marginHorizontal: 10, fontSize: 17 }} isBold={true}>נוסע</HeeboText>
+            <HeeboText style={styles.radioButtonText} isBold={true}>נוסע</HeeboText>
             <Radio selectedColor={'black'} ref={register({ name: 'userType' })} selected={isDriverSelected} onPress={() => handleRadio('driver')} />
-            <HeeboText style={{ marginHorizontal: 10, fontSize: 17 }} isBold={true}>נהג</HeeboText>
+            <HeeboText style={styles.radioButtonText} isBold={true}>נהג</HeeboText>
           </CardItem>
           <CardItem style={styles.cardItem}>
-            <HeeboText style={styles.locationText} isBold={true}>מאיפה?</HeeboText>
-            <ControlledPicker rules={{ required: true }} ref={register({ name: 'source' })} name="source" control={control}
-              options={ALL_CITIES} handlePick={handleSource} />
+            <HeeboText isBold={true}>מאיפה?</HeeboText>
+            <View style={styles.formText}>
+              <ControlledPicker rules={{ required: true }} ref={register({ name: 'source' })} name="source" control={control}
+                options={ALL_CITIES} handlePick={handleSource} />
+            </View>
           </CardItem>
           <CardItem style={styles.cardItem}>
-            <HeeboText style={styles.locationText} isBold={true}> לאן?    </HeeboText>
-            <ControlledPicker rules={{ required: true }} ref={register({ name: 'destination' })} name="destination" control={control}
-              options={ALL_CITIES} handlePick={handleDestination} />
+            <HeeboText isBold={true}> לאן?    </HeeboText>
+            <View style={styles.formText}>
+              <ControlledPicker rules={{ required: true }} ref={register({ name: 'destination' })} name="destination" control={control}
+                options={ALL_CITIES} handlePick={handleDestination} />
+            </View>
           </CardItem>
           <CardItem style={styles.cardItem}>
-            <Button style={{ justifyContent: 'flex-start', flex: 1, marginLeft: 10, }} iconRight dark transparent onPress={() => setDateVisibility(true)}>
+            <Button style={{ justifyContent: 'flex-start', flex: 1, marginTop: -7, marginLeft:-7, }} iconRight dark transparent onPress={() => setDateVisibility(true)}>
               <HeeboText isBold={true} style={{ width: 70, fontSize: 17 }}>מתי?</HeeboText>
-              <View style={styles.dateTimeText}>
-                <HeeboText isBold={true} style={{fontSize: 14}}>{dateTimeText}</HeeboText>
+              <View style={styles.formText}>
+                <HeeboText isBold={true} style={{ fontSize: 14 }}>{dateTimeText}</HeeboText>
               </View>
             </Button>
           </CardItem>
-          {getSubmitButton()}
-          {showAlwaysOffer()}
-          {showErrorModal()}
+          {isDriverSelected ?
+            <Button style={styles.submitButton} onPress={handleSubmit(createNewRideOption)} dark >
+                <HeeboText style={{ paddingLeft: 10 }} isBold={true}>הצע טרמפ</HeeboText>
+                <Icon style={{ marginLeft: 0 }} name="notification" type={'AntDesign'} />
+              </Button>
+              : 
+              <Button style={styles.submitButton} onPress={handleSubmit(findRide)} dark>
+                <HeeboText style={{ paddingLeft: 10 }} isBold={true}>חפש טרמפ</HeeboText>
+                <Icon style={{ marginLeft: 0 }} name="search1" type={'AntDesign'} />
+              </Button>
+            }
+          {modalVisible && <View style={styles.centeredView}>
+            <Modal animationType="slide" transparent={true} visible={modalVisible}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <HeeboText isBold={true} style={{ color: 'white' }}>לא מילאת פרטים כמו שצריך...</HeeboText>
+                  <Button danger style={styles.closeButton} onPress={() => { setModalVisible(false) }}>
+                    <HeeboText isBold={true}>סגור</HeeboText>
+                  </Button>
+                </View>
+              </View>
+            </Modal>
+          </View>}
           <ControlledDateModal
             control={control}
             name='date'
@@ -180,7 +161,10 @@ const SearchForm = ({ control, onSubmit }) => {
             maximumDate={new Date(moment().
               add(MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED, 'days'))}
           />
-
+          {isDriverSelected && <CardItem style={styles.cardItem}>
+            <CheckBox ref={register({ name: 'permanentOffer' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
+            <HeeboText style={{ marginLeft: 15 }} isBold={true}>הצע באופן קבוע</HeeboText>
+          </CardItem>}
         </Card>
       </ImageBackground>
     </Container>
@@ -190,17 +174,23 @@ const SearchForm = ({ control, onSubmit }) => {
 export default SearchForm;
 
 const styles = StyleSheet.create({
-  dateTimeText: {
+  radioButtonText: {
+    marginRight: 30,
+    marginLeft: 10,
+    fontSize: 20
+  },
+  formText: {
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 7,
     width: 200,
     height: 30,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginHorizontal: 10,
   },
   userTypeCard: {
-    justifyContent: 'center',
+    paddingTop: 20,
     alignItems: 'center',
     width: '80%',
     height: '55%',
@@ -212,10 +202,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     backgroundColor: 'transparent',
-    marginVertical: 3,
-  },
-  locationText: {
-    marginHorizontal: 25,
+    marginVertical: 10,
   },
   backgroundImage: {
     flex: 1,
@@ -249,10 +236,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     justifyContent: 'space-between',
     paddingTop: 20
-  },
-  textStyle: {
-    textAlign: "center",
-    marginHorizontal: 5
   },
   modalText: {
     marginBottom: 15,

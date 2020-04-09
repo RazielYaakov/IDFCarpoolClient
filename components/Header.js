@@ -19,13 +19,13 @@ export default function Header() {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: 55,
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#eee',
         opacity: 0.95,
-        marginTop: 20,
+        paddingTop: 40,
+        paddingBottom:5,
         elevation: 0.001,
     },
     imageCar: {
@@ -42,12 +42,10 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 25,
         marginRight: 30,
-        backgroundColor: 'transparent',
         
     },
     imageContainer: {
         flexDirection: 'row',
-        backgroundColor: 'transparent',
         marginLeft: 30,
     }
 });
