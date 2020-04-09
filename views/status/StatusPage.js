@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { HeeboText } from '../../components/HeeboText';
 import RidesList from './RidesList';
 import TypeOfUser from './TypeOfUser';
+import Header from '../../components/Header';
 
 
 const styles = StyleSheet.create({
@@ -40,7 +41,9 @@ const StatusPage = () => {
   }
 
   return (
+    
     <Card style={styles.statusCard}>
+      <Header/>
       <TypeOfUser isDriver={isDriverSelected} handleChange={changeUserType}/>
       <ScrollView>
         <RidesList isDriver={isDriverSelected}/>
