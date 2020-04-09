@@ -14,7 +14,7 @@ import { ALL_CITIES } from '../../constants/constants';
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 7;
 
 const SearchForm = ({ control, onSubmit }) => {
-  const { register, setValue, getValues, handleSubmit } = useForm({
+  const { register, setValue, handleSubmit } = useForm({
     defaultValues: {
       userType: 'passenger',
       permanentOffer: false,

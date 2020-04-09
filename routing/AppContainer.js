@@ -15,16 +15,16 @@ const Stack = createStackNavigator();
 function TabNavigator() {
     return (
         <Tab.Navigator barStyle={{ backgroundColor: '#eee' }} shifting={true}>
-            <Tab.Screen name="חפש" component={RequestPage}
+            <Tab.Screen name="טרמפ" component={RequestPage}
                 options={{
                     tabBarIcon: () => (
-                        <SimpleLineIcons size={24} name='magnifier' />
+                        <SimpleLineIcons size={25} name='magnifier' />
                     )
                 }} />
-            <Tab.Screen name="טרמפים" component={StatusPage}
+            <Tab.Screen name="סטטוס" component={StatusPage}
                 options={{
                     tabBarIcon: () => (
-                        <MaterialCommunityIcons size={25} name='truck-delivery' />
+                        <MaterialCommunityIcons size={26} name='truck-delivery' />
                     )
                 }} />
         </Tab.Navigator>
