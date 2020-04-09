@@ -66,6 +66,10 @@ const SearchForm = ({ control, onSubmit }) => {
     }
   }
 
+  const getDateMode = () => {
+    return isPermanentOffer ? 'time' : 'datetime';
+  }
+
   const showErrorModal = () => {
     if (modalVisible) {
       return (
@@ -161,7 +165,7 @@ const SearchForm = ({ control, onSubmit }) => {
           <ControlledDateModal
             control={control}
             name='date'
-            mode='datetime'
+            mode={getDateMode()}
             rules={{
               required: true,
               validate: date => date > new Date(),
