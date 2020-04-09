@@ -15,9 +15,8 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    resizeMode: "stretch"
+    width: null,
+    height: null,
   },
 });
 

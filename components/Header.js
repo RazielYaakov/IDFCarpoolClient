@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { Card } from 'native-base';
+import Constants from 'expo-constants';
 import { HeeboText } from './HeeboText';
 
 export default function Header() {
@@ -18,14 +18,14 @@ export default function Header() {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: Constants.statusBarHeight,
         width: '100%',
+        height: '8%',
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: '#eee',
-        opacity: 0.95,
-        paddingTop: 40,
-        paddingBottom:5,
+        backgroundColor: 'transparent',
+        opacity: 0.9,
         elevation: 0.001,
     },
     imageCar: {
@@ -37,15 +37,15 @@ const styles = StyleSheet.create({
         height: 40,
         width: 40,
         marginTop: 5,
-        marginLeft: 5,
     },
     text: {
         fontSize: 25,
-        marginRight: 30,
-        
+        marginHorizontal: 8,
+        backgroundColor: 'transparent',
     },
     imageContainer: {
         flexDirection: 'row',
-        marginLeft: 30,
+        marginHorizontal: 8,
+        backgroundColor: 'transparent',
     }
 });
