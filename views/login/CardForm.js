@@ -4,11 +4,13 @@ import { useForm } from 'react-hook-form';
 import { AsyncStorage, StyleSheet } from 'react-native';
 import loginRequest from '../../requests/loginRequest';
 import { HeeboText } from '../../components/HeeboText';
-import { TAB_NAVIGATOR_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, USERNAME_LOCAL_STORAGE_NAME, TOKEN_LOCAL_STORAGE_NAME } from '../../constants/constants';
+import { SUCCESS, TAB_NAVIGATOR_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, USERNAME_LOCAL_STORAGE_NAME, TOKEN_LOCAL_STORAGE_NAME } from '../../constants/constants';
 import pushNotificationRegister from '../../pushNotifications/pushNotificationRegister';
 
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
+  const [isLoginSucceed, setLoginSucceed] = useState(false);
+
 
   const onSubmit = async (data) => {
     let token = pushNotificationRegister();
@@ -17,10 +19,20 @@ const CardForm = ({ navigation }) => {
     AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, data.name);
     AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, token);
 
-    var loginRequestResponse = await loginRequest({ "phoneNumber": data.phoneNumber, "name": data.name, token });
-
     //send user data to server with token
-    navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
+    var loginRequestResponse = await loginRequest({
+      phoneNumber: data.phoneNumber,
+      name: data.name,
+      token: token
+    });
+
+    console.log(loginRequestResponse);
+
+    if (loginRequestResponse === SUCCESS) {
+      navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
+    }
+
+    //show login not succeed
   };
 
   return (
@@ -36,14 +48,12 @@ const CardForm = ({ navigation }) => {
           </Item>
           <Item floatingLabel style={styles.item} last>
             <Label style={styles.label}>מספר טלפון</Label>
-            <Input autoCompleteType={'tel'}
+            <Input style={styles.input} placeholder="מספר טלפון"
               keyboardType={'phone-pad'}
               dataDetectorTypes={'phoneNumber'}
-              style={styles.input} placeholder="מספר טלפון"
               ref={register({ name: 'phoneNumber' },
                 { required: true, pattern: /^05\d{8}$/g })}
-              onChangeText={text => setValue('phoneNumber', text,
-                true)} />
+              onChangeText={text => setValue('phoneNumber', text, true)} />
             {errors.phoneNumber &&
               <Icon style={styles.checkIcon} name='dislike2' type={'AntDesign'} />}
           </Item>
@@ -82,7 +92,8 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'right',
-    color: 'white'
+    color: 'white',
+    marginVertical: 3,
   },
   label: {
     textAlign: 'left',

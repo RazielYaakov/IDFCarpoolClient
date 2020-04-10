@@ -3,7 +3,7 @@ import { tz } from 'moment-timezone';
 import { Button, Card, CardItem, CheckBox, Container, Icon, Radio } from 'native-base';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity, ScrollView } from 'react-native';
 import { ImageBackground, Modal, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
@@ -11,27 +11,29 @@ import ControlledDateModal from '../../components/ControlledDateModal';
 import ControlledPicker from '../../components/ControlledPicker';
 import { HeeboText } from '../../components/HeeboText';
 import { ALL_CITIES } from '../../constants/constants';
+import newOfferRequest from '../../requests/NewOfferRequest';
+import findRideRequest from '../../requests/sendRideDataRequest';
 
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 7;
 
-const SearchForm = ({ control, onSubmit }) => {
+const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
   const { register, setValue, handleSubmit } = useForm({
     defaultValues: {
       userType: 'passenger',
-      permanentOffer: false,
+      isPermanent: false,
     }
   });
 
-  const [dateTimeText, setDateTimeText] = useState();
+  const [dateTimeText, setDateTimeText] = useState('*לא נבחר תאריך');
   const [isDateVisible, setDateVisibility] = useState(false);
   const [isDriverSelected, setDriverSelected] = useState(false);
   const [isPermanentOffer, setPermanentOffer] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
+  
   const handleCheckBox = () => {
     if (isDriverSelected) {
       setPermanentOffer(!isPermanentOffer);
-      setValue('permanentOffer', isPermanentOffer, true);
+      setValue('isPermanent', isPermanentOffer, true);
     }
   };
 
@@ -45,7 +47,15 @@ const SearchForm = ({ control, onSubmit }) => {
 
   const handleDateChoose = (chosenDate) => {
     setValue('dateTime', chosenDate, true);
-    setDateTimeText(moment(chosenDate.toString()).format('LLL'));
+    
+    var dateTime = new Date(chosenDate);
+    var minutes = dateTime.getMinutes() > 9 ? dateTime.getMinutes() : ('0' + dateTime.getMinutes());
+    var hours = dateTime.getHours() > 9 ? dateTime.getHours() : ('0' + dateTime.getHours());
+    var time = hours + ':' + minutes;
+    var day = dateTime.getDate() > 9 ? dateTime.getDate() : ('0' + dateTime.getDate());
+    var month = (dateTime.getMonth() + 1) > 9 ? (dateTime.getMonth() + 1) : ('0' + (dateTime.getMonth() + 1));
+    var date = day + '/' + month;
+    setDateTimeText(time + ',  ' + date);
   };
 
   const handleRadio = (userType) => {
@@ -64,9 +74,16 @@ const SearchForm = ({ control, onSubmit }) => {
     return data.source != undefined && data.destination != undefined && data.dateTime != undefined;
   };
 
-  const createNewRideOption = (data) => {
+  const createNewOffer = async (data) => {
     if (isValidSubmit(data)) {
-      //callNewRideRequestMethod
+      const newOfferResponse = await newOfferRequest({
+        source: data.source,
+        destination: data.destination,
+        dateTime: data.dateTime,
+        isPermanent: data.isPermanent,
+        phoneNumber: phoneNumber,
+        name: userName
+      });
       Toast.showWithGravity('תודה על ההצעה אלוף', Toast.LONG, Toast.CENTER);
       return;
     }
@@ -74,9 +91,15 @@ const SearchForm = ({ control, onSubmit }) => {
     setModalVisible(true);
   };
 
-  const findRide = (data) => {
+  const findRide = async (data) => {
     if (isValidSubmit(data)) {
-      //callFindRideRequest
+      const newOfferResponse = await findRideRequest({
+        source: data.source,
+        destination: data.destination,
+        dateTime: data.dateTime,
+        phoneNumber: phoneNumber,
+      });
+
       Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
       return;
     }
@@ -93,46 +116,52 @@ const SearchForm = ({ control, onSubmit }) => {
       <ImageBackground
         source={require('../../assets/images/search-back.jpg')}
         style={styles.backgroundImage}>
-        <Card style={styles.userTypeCard}>
-          <CardItem style={styles.cardItem}>
-            <Radio selectedColor={'black'} ref={register({ name: 'userType' })} selected={!isDriverSelected} onPress={() => handleRadio('passenger')} />
-            <HeeboText style={styles.radioButtonText} isBold={true}>נוסע</HeeboText>
-            <Radio selectedColor={'black'} ref={register({ name: 'userType' })} selected={isDriverSelected} onPress={() => handleRadio('driver')} />
-            <HeeboText style={styles.radioButtonText} isBold={true}>נהג</HeeboText>
+
+        <Card style={styles.searchCard}>
+          <CardItem style={styles.firstRow}>
+            <CardItem style={styles.userTypeItem}>
+              <Radio selectedColor={'black'} ref={register({ name: 'userType' })} selected={!isDriverSelected} onPress={() => handleRadio('passenger')} />
+              <HeeboText style={styles.radioButtonText} isBold={true}>נוסע</HeeboText>
+              <Radio selectedColor={'black'} ref={register({ name: 'userType' })} selected={isDriverSelected} onPress={() => handleRadio('driver')} />
+              <HeeboText style={styles.radioButtonText} isBold={true}>נהג</HeeboText>
+            </CardItem>
           </CardItem>
-          <CardItem style={styles.cardItem}>
-            <HeeboText isBold={true}>מאיפה?</HeeboText>
-            <View style={styles.formText}>
-              <ControlledPicker rules={{ required: true }} ref={register({ name: 'source' })} name="source" control={control}
+          <CardItem style={styles.secondRow}>
+            <CardItem style={styles.locationItem}>
+              <HeeboText isBold={true}>מאיפה?</HeeboText>
+              <ControlledPicker style={styles.locationPicker} rules={{ required: true }} ref={register({ name: 'source' })} name="source" control={control}
                 options={ALL_CITIES} handlePick={handleSource} />
-            </View>
-          </CardItem>
-          <CardItem style={styles.cardItem}>
-            <HeeboText isBold={true}> לאן?    </HeeboText>
-            <View style={styles.formText}>
-              <ControlledPicker rules={{ required: true }} ref={register({ name: 'destination' })} name="destination" control={control}
+            </CardItem>
+            <CardItem style={styles.locationItem}>
+              <HeeboText isBold={true}> לאן?    </HeeboText>
+              <ControlledPicker style={styles.locationPicker} rules={{ required: true }} ref={register({ name: 'destination' })} name="destination" control={control}
                 options={ALL_CITIES} handlePick={handleDestination} />
-            </View>
+            </CardItem>
           </CardItem>
-          <CardItem style={styles.cardItem}>
-            <Button style={{ justifyContent: 'flex-start', flex: 1, marginTop: -7, marginLeft:-7, }} iconRight dark transparent onPress={() => setDateVisibility(true)}>
-              <HeeboText isBold={true} style={{ width: 70, fontSize: 17 }}>מתי?</HeeboText>
-              <View style={styles.formText}>
-                <HeeboText isBold={true} style={{ fontSize: 14 }}>{dateTimeText}</HeeboText>
-              </View>
-            </Button>
+          <CardItem style={styles.thirdRow}>
+            <CardItem style={styles.datePicker}>
+              <Button iconRight dark transparent onPress={() => setDateVisibility(true)}>
+                <HeeboText isBold={true} style={{ width: 70, fontSize: 17 }}>מתי?</HeeboText>
+                <Icon name='calendar' type={'FontAwesome'} />
+              </Button>
+              <HeeboText style={{ fontSize: 17, }}>{dateTimeText}</HeeboText>
+            </CardItem>
           </CardItem>
           {isDriverSelected ?
-            <Button style={styles.submitButton} onPress={handleSubmit(createNewRideOption)} dark >
-                <HeeboText style={{ paddingLeft: 10 }} isBold={true}>הצע טרמפ</HeeboText>
-                <Icon style={{ marginLeft: 0 }} name="notification" type={'AntDesign'} />
-              </Button>
-              : 
-              <Button style={styles.submitButton} onPress={handleSubmit(findRide)} dark>
-                <HeeboText style={{ paddingLeft: 10 }} isBold={true}>חפש טרמפ</HeeboText>
-                <Icon style={{ marginLeft: 0 }} name="search1" type={'AntDesign'} />
-              </Button>
-            }
+            <Button style={styles.submitButton} onPress={handleSubmit(createNewOffer)} dark >
+              <HeeboText style={{ paddingLeft: 10 }} isBold={true}>הצע טרמפ</HeeboText>
+              <Icon style={{ marginLeft: 0 }} name="notification" type={'AntDesign'} />
+            </Button>
+            :
+            <Button style={styles.submitButton} onPress={handleSubmit(findRide)} dark>
+              <HeeboText style={{ paddingLeft: 10 }} isBold={true}>חפש טרמפ</HeeboText>
+              <Icon style={{ marginLeft: 0 }} name="search1" type={'AntDesign'} />
+            </Button>
+          }
+          {isDriverSelected && <CardItem style={styles.userTypeItem}>
+            <CheckBox ref={register({ name: 'permanentOffer' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
+            <HeeboText style={{ marginLeft: 15 }} isBold={true}>הצע באופן קבוע</HeeboText>
+          </CardItem>}
           {modalVisible && <View style={styles.centeredView}>
             <Modal animationType="slide" transparent={true} visible={modalVisible}>
               <View style={styles.centeredView}>
@@ -161,10 +190,6 @@ const SearchForm = ({ control, onSubmit }) => {
             maximumDate={new Date(moment().
               add(MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED, 'days'))}
           />
-          {isDriverSelected && <CardItem style={styles.cardItem}>
-            <CheckBox ref={register({ name: 'permanentOffer' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
-            <HeeboText style={{ marginLeft: 15 }} isBold={true}>הצע באופן קבוע</HeeboText>
-          </CardItem>}
         </Card>
       </ImageBackground>
     </Container>
@@ -174,42 +199,102 @@ const SearchForm = ({ control, onSubmit }) => {
 export default SearchForm;
 
 const styles = StyleSheet.create({
-  radioButtonText: {
-    marginRight: 30,
-    marginLeft: 10,
-    fontSize: 20
+  backgroundImage: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  formText: {
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 7,
-    width: 200,
-    height: 30,
+  searchCard: {
+    width: '85%',
+    height: '52%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 10,
-  },
-  userTypeCard: {
-    paddingTop: 20,
-    alignItems: 'center',
-    width: '80%',
-    height: '55%',
-    marginTop: 10,
-    opacity: 0.8,
     borderRadius: 10,
+    marginTop: 0,
+    marginBottom: 10,
+    marginLeft: 0,
+    marginRight: 0,
+    opacity: 0.8,
+    elevation: 1
   },
-  cardItem: {
+  firstRow: {
+    backgroundColor: 'transparent',
+    paddingRight: 0,
+    paddingLeft: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  secondRow: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    paddingRight: 0,
+    paddingLeft: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: '90%',
+  },
+  thirdRow: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    paddingRight: 0,
+    paddingLeft: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: '90%',
+  },
+  userTypeItem: {
     paddingTop: 0,
     paddingBottom: 0,
     backgroundColor: 'transparent',
     marginVertical: 10,
+    alignSelf: 'center'
   },
-  backgroundImage: {
-    flex: 1,
-    width: null,
-    height: null,
-    alignItems: 'center',
-    justifyContent: 'center',
+  locationItem: {
+    flexDirection: 'column',
+    width: '50%',
+    backgroundColor: 'transparent',
+    paddingLeft: 0,
+    paddingTop: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+  },
+  locationPicker: {
+    marginLeft: 0,
+    marginTop: 0,
+    marginRight: 0,
+    marginBottom: 0,
+    paddingLeft: 0,
+    paddingTop: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+  },
+  datePicker: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    backgroundColor: 'transparent',
+    flexDirection: 'column',
+  },
+  options: {
+    width: '95%',
+    height: '45%',
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    opacity: 0.8,
+    elevation: 1
+  },
+  radioButtonText: {
+    marginRight: 10,
+    marginLeft: 5,
+    fontSize: 17
   },
   submitButton: {
     alignSelf: 'center',

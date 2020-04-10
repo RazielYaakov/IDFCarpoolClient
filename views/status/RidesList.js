@@ -36,15 +36,15 @@ const RidesList = ({ isDriver }) => {
     setPhoneNumberReady(true);
   }
 
-  const getUserRides = async ({ userType, phoneNumber }) => {
-    const myRides = await showMyRidesRequest({ userType, phoneNumber });
+  const getUserRides = async ({ phoneNumber }) => {
+    const myRides = await showMyRidesRequest({ phoneNumber });
     setListRows(createListRows(myRides));
     setIsLoading(false);
   };
 
-  if(isDriver) {
+  if (isDriver) {
     console.log(isDriver);
-    return(<HeeboText>רזי אתה מלך</HeeboText>)
+    return (<HeeboText>רזי אתה מלך</HeeboText>)
   }
 
   if (isLoading) {
@@ -52,7 +52,7 @@ const RidesList = ({ isDriver }) => {
       loadStoredPhoneNumber();
     }
 
-    getUserRides({ "userType": "passenger", phoneNumber });
+    getUserRides({ phoneNumber });
 
     return (
       <View style={styles.lottieContainer}>
@@ -87,25 +87,30 @@ const RidesList = ({ isDriver }) => {
 };
 
 const createListRows = (rides) => {
-  var listRows = [];
-  const valuesPosition = 1;
+  console.log(rides);
+  if (false) {
+    var listRows = [];
+    const valuesPosition = 1;
 
-  rides.forEach(ride => {
-    var values = ride[valuesPosition]
+    rides.forEach(ride => {
+      var values = ride[valuesPosition]
 
-    listRows.push(<RideRow
-      name={values.driver.name}
-      phoneNumber={values.driver.phoneNumber}
-      source={values.source}
-      destination={values.destination}
-      date={values.dateTime}
-      driverAccepted={values.driver.accepted}
-      passengerAccepted={values.passenger.accepted}
-      rideAccepted={values.accepted}
-    />);
-  });
+      listRows.push(<RideRow
+        name={values.driver.name}
+        phoneNumber={values.driver.phoneNumber}
+        source={values.source}
+        destination={values.destination}
+        date={values.dateTime}
+        driverAccepted={values.driver.accepted}
+        passengerAccepted={values.passenger.accepted}
+        rideAccepted={values.accepted}
+      />);
+    });
 
-  return listRows;
+    return listRows;
+  }
+
+  return [];
 }
 
 export default RidesList;
