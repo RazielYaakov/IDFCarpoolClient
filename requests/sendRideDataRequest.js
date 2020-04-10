@@ -1,19 +1,19 @@
 import axios from 'axios';
+import moment from 'moment';
 
 import { FIND_RIDE_API, SERVER_URL } from '../constants/constants';
 
-const findRideRequest = async (wantedRideData) => {
-  axios.post(`${SERVER_URL}/${FIND_RIDE_API}?` +
-    `source=${wantedRideData.source}` +
-    `&phoneNumber=${wantedRideData.phoneNumber}` +
-    `&dateTime=${wantedRideData.date}` +
-    `&destination=${wantedRideData.destination}`
-  ).then((data) => {
-    return data.data;
-  }
-  ).catch((err) => {
-    console.log(err)
-  });;
-}
+export default async (userData) => {
+    const dateStr = moment(userData.dateTime).format('YYYY-MM-DD HH:mm:ss')
+    
+    let findRideResponse = await axios.post(`${SERVER_URL}/${FIND_RIDE_API}?` +
+    `&source=${userData.source}` +
+    `&destination=${userData.destination}` +
+    `&phoneNumber=${userData.phoneNumber}` +
+    `&dateTime=${dateStr}`
+  );
 
-export default findRideRequest;
+  console.log(findRideResponse.data);
+
+  return findRideResponse.data;
+};

@@ -11,14 +11,16 @@ import ControlledDateModal from '../../components/ControlledDateModal';
 import ControlledPicker from '../../components/ControlledPicker';
 import { HeeboText } from '../../components/HeeboText';
 import { ALL_CITIES } from '../../constants/constants';
+import newOfferRequest from '../../requests/NewOfferRequest';
+import findRideRequest from '../../requests/sendRideDataRequest';
 
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 7;
 
-const SearchForm = ({ control, onSubmit }) => {
+const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
   const { register, setValue, handleSubmit } = useForm({
     defaultValues: {
       userType: 'passenger',
-      permanentOffer: false,
+      isPermanent: false,
     }
   });
 
@@ -27,11 +29,11 @@ const SearchForm = ({ control, onSubmit }) => {
   const [isDriverSelected, setDriverSelected] = useState(false);
   const [isPermanentOffer, setPermanentOffer] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
+  
   const handleCheckBox = () => {
     if (isDriverSelected) {
       setPermanentOffer(!isPermanentOffer);
-      setValue('permanentOffer', isPermanentOffer, true);
+      setValue('isPermanent', isPermanentOffer, true);
     }
   };
 
@@ -45,6 +47,7 @@ const SearchForm = ({ control, onSubmit }) => {
 
   const handleDateChoose = (chosenDate) => {
     setValue('dateTime', chosenDate, true);
+    
     var dateTime = new Date(chosenDate);
     var minutes = dateTime.getMinutes() > 9 ? dateTime.getMinutes() : ('0' + dateTime.getMinutes());
     var hours = dateTime.getHours() > 9 ? dateTime.getHours() : ('0' + dateTime.getHours());
@@ -71,9 +74,16 @@ const SearchForm = ({ control, onSubmit }) => {
     return data.source != undefined && data.destination != undefined && data.dateTime != undefined;
   };
 
-  const createNewRideOption = (data) => {
+  const createNewOffer = async (data) => {
     if (isValidSubmit(data)) {
-      //callNewRideRequestMethod
+      const newOfferResponse = await newOfferRequest({
+        source: data.source,
+        destination: data.destination,
+        dateTime: data.dateTime,
+        isPermanent: data.isPermanent,
+        phoneNumber: phoneNumber,
+        name: userName
+      });
       Toast.showWithGravity('תודה על ההצעה אלוף', Toast.LONG, Toast.CENTER);
       return;
     }
@@ -81,9 +91,15 @@ const SearchForm = ({ control, onSubmit }) => {
     setModalVisible(true);
   };
 
-  const findRide = (data) => {
+  const findRide = async (data) => {
     if (isValidSubmit(data)) {
-      //callFindRideRequest
+      const newOfferResponse = await findRideRequest({
+        source: data.source,
+        destination: data.destination,
+        dateTime: data.dateTime,
+        phoneNumber: phoneNumber,
+      });
+
       Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
       return;
     }
@@ -132,7 +148,7 @@ const SearchForm = ({ control, onSubmit }) => {
             </CardItem>
           </CardItem>
           {isDriverSelected ?
-            <Button style={styles.submitButton} onPress={handleSubmit(createNewRideOption)} dark >
+            <Button style={styles.submitButton} onPress={handleSubmit(createNewOffer)} dark >
               <HeeboText style={{ paddingLeft: 10 }} isBold={true}>הצע טרמפ</HeeboText>
               <Icon style={{ marginLeft: 0 }} name="notification" type={'AntDesign'} />
             </Button>
