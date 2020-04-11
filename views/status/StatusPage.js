@@ -9,6 +9,7 @@ import { PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
 import showMyRidesRequest from '../../requests/showMyRidesRequest';
 import RidesList from './RidesList';
 import TypeOfUser from './TypeOfUser';
+import OffersOrRequest from './OffersOrRequest';
 
 const styles = StyleSheet.create({
   statusCard: {
@@ -64,6 +65,7 @@ const StatusPage = () => {
   const [isRidesReady, setRidesReady] = useState(false);
   const [rides, setRides] = useState(undefined);
   const [isDriverSelected, setDriverSelected] = useState(false);
+  const [showMyOffers, setShowMyOffers] = useState(false);
 
   const loadStoredPhoneNumber = async () => {
     const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
@@ -81,6 +83,10 @@ const StatusPage = () => {
   const changeUserType = (isDriver) => {
     console.log('changing isDriver to ' + isDriver);
     setDriverSelected(isDriver);
+  };
+
+  const changeOffersOrRequests = (showMyOffers) => {
+    setShowMyOffers(showMyOffers);
   };
 
   const refreshPage = () => {
@@ -116,8 +122,9 @@ const StatusPage = () => {
     <Card style={styles.statusCard}>
       <Header />
       <TypeOfUser isDriver={isDriverSelected} handleChange={changeUserType} />
+      {isDriverSelected && <OffersOrRequest handleChange={changeOffersOrRequests}/>}
       <ScrollView>
-        <RidesList rides={rides} isDriver={isDriverSelected} phoneNumber={phoneNumber}/>
+        <RidesList rides={rides} isDriver={isDriverSelected} phoneNumber={phoneNumber} showMyOffers={showMyOffers}/>
       </ScrollView>
       <Button style={styles.refreshButton} onPress={() => refreshPage()}>
         <HeeboText style={styles.refreshText} isBold={true}>עדכן נסיעות</HeeboText>

@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axios from 'axios';
+
 import { SERVER_URL, UPDATE_API } from '../constants/constants';
 
-export default (userUpdatedData) => {
-    axios.post(`${SERVER_URL}/${UPDATE_API}?` +
+export default async (userUpdatedData) => {
+  const updateResponse = await axios.post(`${SERVER_URL}/${UPDATE_API}?` +
     `userType=${userUpdatedData.userType}` +
     `&phoneNumber=${userUpdatedData.phoneNumber}` +
     `&name=${userUpdatedData.name}` +
@@ -10,15 +11,7 @@ export default (userUpdatedData) => {
     `&leavingBaseTime=${userUpdatedData.leavingBaseTime}` +
     `&baseLocation=${userUpdatedData.baseLocation}` +
     `&homeLocation=${userUpdatedData.homeLocation}` +
-    `&token=${userUpdatedData.token}`
-  ).then((data) => {
-    if(data.data == 'Success'){
-        //Updated successfully alert
-    } else {
-        //show problem alert
-    }
-  }
-  ).catch((err) => {
-    console.log(err)
-  });
+    `&token=${userUpdatedData.token}`, null, { timeout: 10000 });
+
+    return updateResponse.data;
 }

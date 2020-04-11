@@ -10,8 +10,7 @@ export default async (userData) => {
     `&source=${userData.source}` +
     `&destination=${userData.destination}` +
     `&phoneNumber=${userData.phoneNumber}` +
-    `&dateTime=${dateStr}`
-  );
+    `&dateTime=${dateStr}`, null, { timeout: 20000 });
 
   return findRideResponse.data;
 };

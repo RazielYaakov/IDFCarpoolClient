@@ -10,7 +10,7 @@ import DriverAcceptRequest from '../../requests/DriverAcceptRequest';
 import PassengerHandshakeRequest from '../../requests/PassengerHandshakeRequest';
 import CancelRequest from '../../requests/cancelRideRequest';
 import Toast from 'react-native-simple-toast';
-import { SUCCESS } from '../../constants/constants';
+import { SUCCESS, FAILURE } from '../../constants/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -117,6 +117,9 @@ const RequestRow = ({ requestData, requestID, isDriver, phoneNumber }) => {
 
     if (driverAcceptResponse == SUCCESS) {
       Toast.showWithGravity('האישור נשלח לנוסע!', Toast.LONG, Toast.CENTER);
+      return;
+    } else if (driverAcceptRequest == FAILURE) {
+      Toast.showWithGravity('הייתה בעיה קטנה, תאשר שוב בבקשה', Toast.LONG, Toast.CENTER);
     }
   }
 
@@ -125,6 +128,8 @@ const RequestRow = ({ requestData, requestID, isDriver, phoneNumber }) => {
 
     if (handshakeResponse == SUCCESS) {
       Toast.showWithGravity('הטרמפ אושר!', Toast.LONG, Toast.CENTER);
+    } else if (handshakeResponse == FAILURE) {
+      Toast.showWithGravity('הייתה בעיה קטנה, תאשר שוב בבקשה', Toast.LONG, Toast.CENTER);
     }
   }
 
@@ -133,6 +138,8 @@ const RequestRow = ({ requestData, requestID, isDriver, phoneNumber }) => {
 
     if (cancelResponse == SUCCESS) {
       Toast.showWithGravity('הטרמפ בוטל!', Toast.LONG, Toast.CENTER);
+    } else if (cancelResponse == FAILURE) {
+      Toast.showWithGravity('הייתה בעיה קטנה, תבטל שוב', Toast.LONG, Toast.CENTER);
     }
   }
 
