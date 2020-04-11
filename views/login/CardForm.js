@@ -13,7 +13,7 @@ const CardForm = ({ navigation }) => {
 
 
   const onSubmit = async (data) => {
-    let token = pushNotificationRegister();
+    let token = await pushNotificationRegister();
 
     AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
     AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, data.name);
@@ -26,7 +26,7 @@ const CardForm = ({ navigation }) => {
       token: token
     });
 
-    console.log(loginRequestResponse);
+    console.log('ab');
 
     if (loginRequestResponse === SUCCESS) {
       navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
@@ -42,7 +42,7 @@ const CardForm = ({ navigation }) => {
           <Item floatingLabel>
             <Label style={styles.label}>שם מלא</Label>
             <Input style={styles.input} placeholder="שם מלא"
-              ref={register({ name: 'name' }, { required: true })}
+              ref={register({ name: 'name' }, { required: true, pattern: /^[\u0590-\u05FF ,.'-]+$/i })}
               onChangeText={text => setValue('name', text, true)} />
             {errors.name && <Icon style={styles.checkIcon} name='dislike2' type={'AntDesign'} />}
           </Item>

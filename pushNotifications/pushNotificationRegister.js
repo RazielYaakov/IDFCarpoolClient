@@ -15,7 +15,7 @@ export default async() => {
   }
 
   // Get the token that identifies this device
-  let token = Notifications.getExpoPushTokenAsync();
+  let token = await Notifications.getExpoPushTokenAsync();
 
   console.log(token);
   return token;
