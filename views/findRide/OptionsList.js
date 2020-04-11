@@ -76,8 +76,16 @@ const OptionsList = ({ optionalOffers, phoneNumber, refreshPage }) => {
                     loop={false}
                 />
                 <HeeboText style={styles.notFound}>לא מצאתי טרמפים רלוונטיים...</HeeboText>
+                {showRefreshButton()}
             </View>
         )
+    };
+
+    const showRefreshButton = () => {
+        <Button style={styles.refreshButton} onPress={() => refreshPage()}>
+            <HeeboText style={styles.refreshText} isBold={true}>חפש מחדש</HeeboText>
+            <Icon name="search1" type={'AntDesign'} />
+        </Button>
     };
 
     const createRowsOfOptions = () => {
@@ -126,10 +134,7 @@ const OptionsList = ({ optionalOffers, phoneNumber, refreshPage }) => {
                     {optionsList}
                 </List>
             </ScrollView>
-            <Button style={styles.refreshButton} onPress={() => refreshPage()}>
-                <HeeboText style={styles.refreshText} isBold={true}>חפש מחדש</HeeboText>
-                <Icon name="search1" type={'AntDesign'} />
-            </Button>
+            {showRefreshButton()}
         </Card>
     );
 };
