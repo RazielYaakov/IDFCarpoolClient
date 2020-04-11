@@ -52,6 +52,7 @@ const RequestRow = ({ requestData, requestID, isDriver, phoneNumber }) => {
 
   const getTimeAndDate = () => {
     var rideDate = new Date(requestData.dateTime);
+    rideDate.setHours(rideDate.getHours() + (rideDate.getTimezoneOffset() / 60));
 
     var minutes = rideDate.getMinutes() > 9 ? rideDate.getMinutes() : ('0' + rideDate.getMinutes());
     var hours = rideDate.getHours() > 9 ? rideDate.getHours() : ('0' + rideDate.getHours());
@@ -74,7 +75,7 @@ const RequestRow = ({ requestData, requestID, isDriver, phoneNumber }) => {
     } else if (!requestData.accepted) {
       return (
         <Left style={styles.leftSide}>
-          <WaitingInfoButton isDriver={isDriver}/>
+          <WaitingInfoButton isDriver={isDriver} />
           <CancelButton handleCancel={cancelRideRequest} />
         </Left>
       )
@@ -91,7 +92,7 @@ const RequestRow = ({ requestData, requestID, isDriver, phoneNumber }) => {
     if (!requestData.driver.accepted) {
       return (
         <Left style={styles.leftSide}>
-          <WaitingInfoButton isDriver={isDriver}/>
+          <WaitingInfoButton isDriver={isDriver} />
           <CancelButton handleCancel={cancelRideRequest} />
         </Left>
       )

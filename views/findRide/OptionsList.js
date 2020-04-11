@@ -3,7 +3,7 @@ import { Button, Card, CardItem, Icon, List } from 'native-base';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import Toast from 'react-native-simple-toast';
 import { HeeboText } from '../../components/HeeboText';
 import OptionalRow from './OptionalRow';
 
@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
         height: 250,
     },
     lottieContainer: {
-        marginTop: 60,
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
@@ -42,6 +41,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: '5.5%',
+        opacity: 0.8,
     },
     refreshText: {
         fontSize: 17,
@@ -68,24 +68,28 @@ const OptionsList = ({ optionalOffers, phoneNumber, refreshPage }) => {
 
     const showNoOptionalRides = () => {
         return (
-            <View style={styles.lottieContainer}>
-                <LottieView
-                    style={styles.lottie}
-                    source={require('../../assets/lottie/no-rides-founded.json')}
-                    autoPlay
-                    loop={false}
-                />
-                <HeeboText style={styles.notFound}>לא מצאתי טרמפים רלוונטיים...</HeeboText>
+            <Card style={styles.optionsCard}>
+                <View style={styles.lottieContainer}>
+                    <LottieView
+                        style={styles.lottie}
+                        source={require('../../assets/lottie/no-rides-founded.json')}
+                        autoPlay
+                        loop={false}
+                    />
+                    <HeeboText style={styles.notFound}>לא מצאתי טרמפים רלוונטיים...</HeeboText>
+                </View>
                 {showRefreshButton()}
-            </View>
+            </Card>
         )
     };
 
     const showRefreshButton = () => {
-        <Button style={styles.refreshButton} onPress={() => refreshPage()}>
-            <HeeboText style={styles.refreshText} isBold={true}>חפש מחדש</HeeboText>
-            <Icon name="search1" type={'AntDesign'} />
-        </Button>
+        return (
+            <Button style={styles.refreshButton} onPress={() => refreshPage()}>
+                <HeeboText style={styles.refreshText} isBold={true}>חפש מחדש</HeeboText>
+                <Icon name="search1" type={'AntDesign'} />
+            </Button>
+        )
     };
 
     const createRowsOfOptions = () => {

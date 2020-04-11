@@ -4,7 +4,8 @@ import { StyleSheet } from 'react-native';
 import passengerOfferAcceptRequest from '../../requests/PassengerOfferAcceptRequest';
 import { HeeboText } from '../../components/HeeboText';
 import AcceptButton from '../status/buttons/AcceptButton';
-import {SUCCESS} from '../../constants/constants';
+import { SUCCESS } from '../../constants/constants';
+import Toast from 'react-native-simple-toast';
 
 const styles = StyleSheet.create({
     container: {
@@ -46,6 +47,7 @@ const OptionalRow = ({ offerData, offerID, phoneNumber }) => {
 
     const getTimeAndDate = () => {
         var rideDate = new Date(offerData.dateTime);
+        rideDate.setHours(rideDate.getHours() + (rideDate.getTimezoneOffset() / 60));
 
         var minutes = rideDate.getMinutes() > 9 ? rideDate.getMinutes() : ('0' + rideDate.getMinutes());
         var hours = rideDate.getHours() > 9 ? rideDate.getHours() : ('0' + rideDate.getHours());
@@ -64,7 +66,7 @@ const OptionalRow = ({ offerData, offerID, phoneNumber }) => {
             Toast.showWithGravity('בקשה נשלחה לנהג!', Toast.LONG, Toast.CENTER);
             return;
         }
-        
+
         Toast.showWithGravity('הייתה בעיה קטנה, תבקש שוב!', Toast.LONG, Toast.CENTER);
     };
 

@@ -6,33 +6,50 @@ import loginRequest from '../../requests/loginRequest';
 import { HeeboText } from '../../components/HeeboText';
 import { SUCCESS, TAB_NAVIGATOR_ROUTE_NAME, PHONE_LOCAL_STORAGE_NAME, USERNAME_LOCAL_STORAGE_NAME, TOKEN_LOCAL_STORAGE_NAME } from '../../constants/constants';
 import pushNotificationRegister from '../../pushNotifications/pushNotificationRegister';
+import Toast from 'react-native-simple-toast';
 
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
   const [isLoginSucceed, setLoginSucceed] = useState(false);
-
+  const onlyHebrewPattern = new RegExp(/^[\u0590-\u05FF '-]+$/i);
+  const phoneNumberPattern = new RegExp(/^05\d{8}$/g);
 
   const onSubmit = async (data) => {
-    let token = pushNotificationRegister();
+    if (dataIsValid(data)) {
+      let token = await pushNotificationRegister();
 
-    AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
-    AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, data.name);
-    AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, token);
+      AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
+      AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, data.name);
+      AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, token);
 
-    //send user data to server with token
-    var loginRequestResponse = await loginRequest({
-      phoneNumber: data.phoneNumber,
-      name: data.name,
-      token: token
-    });
+      //send user data to server with token
+      var loginRequestResponse = await loginRequest({
+        phoneNumber: data.phoneNumber,
+        name: data.name,
+        token: token
+      });
 
-    console.log(loginRequestResponse);
+      if (loginRequestResponse === SUCCESS) {
+        navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
+      } else {
+        Toast.showWithGravity('התחברת בהצלחה!', Toast.LONG, Toast.CENTER);
+      }
 
-    if (loginRequestResponse === SUCCESS) {
-      navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
+      return;
+    } 
+
+    Toast.showWithGravity('אחד הפרטים לא תקין', Toast.LONG, Toast.CENTER);
+  };
+
+  const dataIsValid = data => {
+    return onlyHebrewPattern.test(data.name) && phoneNumberPattern.test(data.phoneNumber);
+  }
+
+  const handleUserNameChange = (userNameText) => {
+    if (!onlyHebrewPattern.test(userNameText)) {
+      Toast.showWithGravity('השם צריך להיות בעברית (מותר רווחים ומקף)', Toast.LONG, Toast.CENTER);  
     }
-
-    //show login not succeed
+    setValue('name', userNameText, true);
   };
 
   return (
@@ -43,7 +60,7 @@ const CardForm = ({ navigation }) => {
             <Label style={styles.label}>שם מלא</Label>
             <Input style={styles.input} placeholder="שם מלא"
               ref={register({ name: 'name' }, { required: true })}
-              onChangeText={text => setValue('name', text, true)} />
+              onChangeText={text => handleUserNameChange(text)} />
             {errors.name && <Icon style={styles.checkIcon} name='dislike2' type={'AntDesign'} />}
           </Item>
           <Item floatingLabel style={styles.item} last>
