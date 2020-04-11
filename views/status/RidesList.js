@@ -6,7 +6,6 @@ import { StyleSheet, View } from 'react-native';
 import { HeeboText } from '../../components/HeeboText';
 import RequestRow from './RequestRow';
 import OfferRow from './OfferRow';
-import OffersOrRequest from './OffersOrRequest';
 
 const styles = StyleSheet.create({
   lottie: {
@@ -150,7 +149,6 @@ const RidesList = ({ rides, isDriver, phoneNumber, showMyOffers }) => {
         return (showNoRides());
       }
     } else if (listRowsOfDriver != undefined && listRowsOfDriver.length == 0) {
-      console.log(5);
       return (showNoRides());
     }
 

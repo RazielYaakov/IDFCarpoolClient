@@ -83,6 +83,9 @@ const StatusPage = () => {
   const changeUserType = (isDriver) => {
     console.log('changing isDriver to ' + isDriver);
     setDriverSelected(isDriver);
+    if(!isDriver){
+      setShowMyOffers(false);
+    }
   };
 
   const changeOffersOrRequests = (showMyOffers) => {

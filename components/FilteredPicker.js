@@ -48,11 +48,11 @@ const styles = StyleSheet.create({
     },
     container:{
         marginVertical: height * 0.01,
+        justifyContent: 'center'
     },
     textContainer:{
         paddingVertical: height * 0.005,
         flexDirection: 'row',
-        borderWidth: 1,
         width: width * 0.3,
         borderRadius: 4,
     },
