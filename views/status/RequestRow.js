@@ -8,7 +8,7 @@ import WaitingInfoButton from './buttons/WaitingInfoButton';
 import RideAcceptedButton from './buttons/RideAcceptedButton';
 import DriverAcceptRequest from '../../requests/DriverAcceptRequest';
 import PassengerHandshakeRequest from '../../requests/PassengerHandshakeRequest';
-import CancelRequest from '../../requests/cancelRideRequest';
+import CancelRequest from '../../requests/CancelRideRequest';
 import Toast from 'react-native-simple-toast';
 import { SUCCESS, FAILURE } from '../../constants/constants';
 
