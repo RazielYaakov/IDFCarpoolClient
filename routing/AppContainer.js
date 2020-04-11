@@ -18,10 +18,10 @@ function TabNavigator() {
             <Tab.Screen name="טרמפ" component={RequestPage}
                 options={{
                     tabBarIcon: () => (
-                        <SimpleLineIcons size={25} name='magnifier' />
+                        <SimpleLineIcons size={25} name='magnifier-add' type={'SimpleLineIcons'} />
                     )
                 }} />
-            <Tab.Screen name="סטטוס" component={StatusPage}
+            <Tab.Screen name="הנסיעות שלי" component={StatusPage}
                 options={{
                     tabBarIcon: () => (
                         <MaterialCommunityIcons size={26} name='truck-delivery' />
