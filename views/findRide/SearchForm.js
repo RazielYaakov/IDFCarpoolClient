@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Button, Card, CardItem, CheckBox, Container, Icon, Radio } from 'native-base';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ImageBackground, Modal, StyleSheet, View, Dimensions } from 'react-native';
 import Toast from 'react-native-simple-toast';
@@ -24,10 +24,18 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   });
 
   const [dateTimeText, setDateTimeText] = useState('*לא נבחר תאריך');
+  const [timeText, setTimeText] = useState('');
+  const [dateText, setDateText] = useState('');
   const [isDateVisible, setDateVisibility] = useState(false);
   const [isDriverSelected, setDriverSelected] = useState(false);
   const [isPermanentOffer, setPermanentOffer] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (timeText != '') {
+      setDateTimeText((isPermanentOffer ? 'כל יום ב- ' : dateText + '\t\t') + timeText);
+    }
+  }, [isPermanentOffer, timeText, dateText]);
 
   const handleCheckBox = () => {
     if (isDriverSelected) {
@@ -51,16 +59,15 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
     var minutes = dateTime.getMinutes() > 9 ? dateTime.getMinutes() : ('0' + dateTime.getMinutes());
     var hours = dateTime.getHours() > 9 ? dateTime.getHours() : ('0' + dateTime.getHours());
     var time = hours + ':' + minutes;
-    console.log(isPermanentOffer);
+    setTimeText(time);
+
     if (!isPermanentOffer) {
       var day = dateTime.getDate() > 9 ? dateTime.getDate() : ('0' + dateTime.getDate());
       var month = (dateTime.getMonth() + 1) > 9 ? (dateTime.getMonth() + 1) : ('0' + (dateTime.getMonth() + 1));
       var date = day + '/' + month;
-      setDateTimeText(time + ',  ' + date);
+      setDateText(date);
       return;
     }
-
-    setDateTimeText('כל יום ב-' + time);
   };
 
   const handleRadio = (userType) => {
