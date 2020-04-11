@@ -106,6 +106,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   };
 
   const findRide = async (data) => {
+    console.log(data);
     if (isValidSubmit(data)) {
       const findRideResponse = await findRideRequest({
         source: data.source,

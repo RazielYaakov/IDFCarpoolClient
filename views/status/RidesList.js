@@ -1,10 +1,12 @@
 import LottieView from 'lottie-react-native';
-import { List } from 'native-base';
+import { List, Card, CardItem, Radio } from 'native-base';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { HeeboText } from '../../components/HeeboText';
 import RequestRow from './RequestRow';
+import OfferRow from './OfferRow';
+import OffersOrRequest from './OffersOrRequest';
 
 const styles = StyleSheet.create({
   lottie: {
@@ -20,15 +22,33 @@ const styles = StyleSheet.create({
   },
   notFound: {
     fontSize: 40,
+  },
+  cardItem: {
+    elevation: 0,
+    height: 30,
+    paddingTop: 0,
+    paddingBottom: 0,
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
+    opacity: 0.85
+  },
+  textDesign: {
+    marginHorizontal: 5,
+    fontSize: 17,
+    color: 'white'
   }
 });
 
-const RidesList = ({ rides, isDriver, phoneNumber }) => {
+const RidesList = ({ rides, isDriver, phoneNumber, showMyOffers }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [listRowsOfDriver, setListRowsOfDriver] = useState(undefined);
   const [listRowsOfDriverReady, setListRowsOfDriverReady] = useState(false);
   const [listRowsOfPassenger, setListRowsOfPassenger] = useState(undefined);
   const [listRowsOfPassengerReady, setListRowsOfPassengerReady] = useState(false);
+  const [listRowsOfOffers, setListRowsOfOffers] = useState(undefined);
+  const [listRowsOfOffersReady, setListRowsOfOffersReady] = useState(false);
 
   const showNoRides = () => {
     return (
@@ -39,10 +59,35 @@ const RidesList = ({ rides, isDriver, phoneNumber }) => {
           autoPlay
           loop={false}
         />
-        <HeeboText style={styles.notFound}>אין לך טרמפים...</HeeboText>
-        <HeeboText style={styles.notFound}>{isDriver ? 'תציע!' : 'לך חפש! '}</HeeboText>
+        {!isDriver && <HeeboText style={styles.notFound}>אין לך טרמפים...</HeeboText>}
+        <HeeboText style={styles.notFound}>{noRidesText()}</HeeboText>
       </View>
     )
+  };
+
+  const noRidesText = () => {
+    if (isDriver) {
+      return showMyOffers ? 'תציע יא קמצן!' : 'עוד לא ביקשו ממך...';
+    }
+
+    return 'לך חפש!';
+  };
+
+  const createListRowsOfOffers = () => {
+    if (isLoading && !listRowsOfOffersReady) {
+      var offersList = [];
+
+      if (rides.offers !== undefined) {
+        rides.offers.forEach(offer => {
+          console.log(offer);
+          offersList.push(<OfferRow offerID={offer.offerID} offerData={offer.offerData} />)
+        });
+      }
+
+      setListRowsOfOffers(offersList);
+      setListRowsOfOffersReady(true);
+      setIsLoading(false);
+    }
   };
 
   const createListRowsOfDriver = () => {
@@ -57,7 +102,6 @@ const RidesList = ({ rides, isDriver, phoneNumber }) => {
 
       setListRowsOfDriver(driverRequestsList);
       setListRowsOfDriverReady(true);
-      setIsLoading(false);
     }
   };
 
@@ -78,7 +122,7 @@ const RidesList = ({ rides, isDriver, phoneNumber }) => {
 
   const getRelevantList = () => {
     console.log('status of isDriver is ' + isDriver);
-    return isDriver ? listRowsOfDriver : listRowsOfPassenger;
+    return !isDriver ? listRowsOfPassenger : showMyOffers ? listRowsOfOffers : listRowsOfDriver;
   };
 
   if (isLoading) {
@@ -86,6 +130,8 @@ const RidesList = ({ rides, isDriver, phoneNumber }) => {
       createListRowsOfPassenger();
     } else if (!listRowsOfDriverReady) {
       createListRowsOfDriver();
+    } else if (!listRowsOfOffersReady) {
+      createListRowsOfOffers();
     }
 
     return (
@@ -99,7 +145,12 @@ const RidesList = ({ rides, isDriver, phoneNumber }) => {
       </View>
     );
   } else if (isDriver) {
-    if (listRowsOfDriver != undefined && listRowsOfDriver.length == 0) {
+    if (showMyOffers) {
+      if (listRowsOfOffers != undefined && listRowsOfOffers.length == 0) {
+        return (showNoRides());
+      }
+    } else if (listRowsOfDriver != undefined && listRowsOfDriver.length == 0) {
+      console.log(5);
       return (showNoRides());
     }
 
