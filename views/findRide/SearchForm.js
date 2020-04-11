@@ -7,7 +7,7 @@ import Toast from 'react-native-simple-toast';
 
 import ControlledDateModal from '../../components/ControlledDateModal';
 import { HeeboText } from '../../components/HeeboText';
-import { SUCCESS, FAILURE } from '../../constants/constants';
+import { SUCCESS, OFFER_ALREADY_EXISTS, FAILURE } from '../../constants/constants';
 import newOfferRequest from '../../requests/NewOfferRequest';
 import findRideRequest from '../../requests/sendRideDataRequest';
 import FilteredPicker from '../../components/FilteredPicker'
@@ -87,6 +87,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   };
 
   const createNewOffer = async (data) => {
+    console.log(data);
     if (isValidSubmit(data)) {
       var offer = {
         source: data.source,
@@ -102,6 +103,9 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
       if (newOfferResponse == SUCCESS) {
         Toast.showWithGravity('תודה על ההצעה אלוף', Toast.LONG, Toast.CENTER);
         return;
+      } else if (newOfferResponse == OFFER_ALREADY_EXISTS) {
+        Toast.showWithGravity('כבר הצעת את זה, שכחת?', Toast.LONG, Toast.CENTER);
+        return;
       }
 
       Toast.showWithGravity('הייתה בעיה קטנה, תציע שוב בבקשה', Toast.LONG, Toast.CENTER);
@@ -111,6 +115,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   };
 
   const findRide = async (data) => {
+    console.log(data);
     if (isValidSubmit(data)) {
       var requset = {
         source: data.source,

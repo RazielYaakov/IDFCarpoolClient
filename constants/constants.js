@@ -21,6 +21,7 @@ export const PHONE_NUMBER = 'phoneNumber';
 export const USER_NAME = 'name';
 export const TOKEN = 'token';
 export const SUCCESS = 'Success';
+export const OFFER_ALREADY_EXISTS = 'Offer already exists';
 export const FAILURE = 'Failure';
 export const ALL_LOCATIONS = BASES.concat(CITIES);
 console.log(CITIES)
