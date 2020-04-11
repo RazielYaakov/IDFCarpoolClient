@@ -1,5 +1,6 @@
 import React from 'react';
-import {Picker} from 'native-base';
+import {Picker, Input} from 'native-base';
+import {TextInput} from 'react-native';
 import {Controller} from 'react-hook-form';
 
 const onChange = (args, handlePick) => {
@@ -10,9 +11,12 @@ const onChange = (args, handlePick) => {
 const ControlledPicker = ({control, options, name, handlePick}) => {
 
   return (<Controller as={
+    <>
+    <TextInput style={{width:200, height:50, }}/>
     <Picker mode="dialog" style={{width: 150}}>
       {convertListToPickerOptions(options)}
     </Picker>
+    </>
   }
                       control={control}
                       name={name}
