@@ -96,7 +96,6 @@ const OptionsList = ({ optionalOffers, phoneNumber, refreshPage }) => {
         if (isLoading && !isOptionsListReady) {
             var optionalOffersList = [];
 
-            console.log(optionalOffers);
             if (optionalOffers.length !== 0) {
                 optionalOffers.forEach(offer => {
                     optionalOffersList.push(<OptionalRow phoneNumber={phoneNumber} offerID={offer.offerID} offerData={offer.offerData} />)

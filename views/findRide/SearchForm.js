@@ -117,7 +117,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
       if (findRideResponse !== FAILURE) {
         Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
         showOptionsCard(findRideResponse);
-      }   
+      }
     }
 
     setModalVisible(true);
