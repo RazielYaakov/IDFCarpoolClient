@@ -13,7 +13,5 @@ export default async (userData) => {
     `&dateTime=${dateStr}`
   );
 
-  console.log(findRideResponse.data);
-
   return findRideResponse.data;
 };

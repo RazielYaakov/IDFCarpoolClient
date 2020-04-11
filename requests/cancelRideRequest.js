@@ -1,16 +1,14 @@
-import axios from 'axios'
-import { SERVER_URL, CANCEL_RIDE_API } from '../constants/constants';
+import axios from 'axios';
 
-export default (rideID) =>
-    axios.post(`${SERVER_URL}/${CANCEL_RIDE_API}?` +
-        `rideID=${acceptRequest.rideID}`
-    ).then((data) => {
-        if(data.data == 'Success') {
-            //show deleted successfully alert
-        } else {
-            //show not deleted alert
-        }
-    }
-    ).catch((err) => {
-        console.log(err)
-    });
+import { SERVER_URL, CANCEL_REQUEST_API } from '../constants/constants';
+
+const CancelRequest = async ({ requestID, phoneNumber}) => {
+    var rides = await axios.post(`${SERVER_URL}/${CANCEL_REQUEST_API}?` + 
+    `requestID=${requestID}` +
+    `&phoneNumber=${phoneNumber}`
+    );
+
+    return rides.data;
+};
+
+export default CancelRequest;

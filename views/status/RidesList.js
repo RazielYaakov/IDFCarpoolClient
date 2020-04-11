@@ -1,11 +1,10 @@
 import LottieView from 'lottie-react-native';
 import { List } from 'native-base';
 import React, { useState } from 'react';
-import { AsyncStorage, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
 import { HeeboText } from '../../components/HeeboText';
-import { PHONE_LOCAL_STORAGE_NAME } from '../../constants/constants';
-import showMyRidesRequest from '../../requests/showMyRidesRequest';
-import RideRow from './RideRow';
+import RequestRow from './RequestRow';
 
 const styles = StyleSheet.create({
   lottie: {
@@ -24,35 +23,70 @@ const styles = StyleSheet.create({
   }
 });
 
-const RidesList = ({ isDriver }) => {
+const RidesList = ({ rides, isDriver, phoneNumber }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [listRows, setListRows] = useState(undefined);
-  const [phoneNumberReady, setPhoneNumberReady] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState(undefined);
+  const [listRowsOfDriver, setListRowsOfDriver] = useState(undefined);
+  const [listRowsOfDriverReady, setListRowsOfDriverReady] = useState(false);
+  const [listRowsOfPassenger, setListRowsOfPassenger] = useState(undefined);
+  const [listRowsOfPassengerReady, setListRowsOfPassengerReady] = useState(false);
 
-  const loadStoredPhoneNumber = async () => {
-    const phoneNumber = await AsyncStorage.getItem(PHONE_LOCAL_STORAGE_NAME);
-    setPhoneNumber(phoneNumber);
-    setPhoneNumberReady(true);
-  }
-
-  const getUserRides = async ({ phoneNumber }) => {
-    const myRides = await showMyRidesRequest({ phoneNumber });
-    setListRows(createListRows(myRides));
-    setIsLoading(false);
+  const showNoRides = () => {
+    return (
+      <View style={styles.lottieContainer}>
+        <LottieView
+          style={styles.lottie}
+          source={require('../../assets/lottie/no-rides-founded.json')}
+          autoPlay
+          loop={false}
+        />
+        <HeeboText style={styles.notFound}>אין לך טרמפים...</HeeboText>
+        <HeeboText style={styles.notFound}>{isDriver ? 'תציע!' : 'לך חפש! '}</HeeboText>
+      </View>
+    )
   };
 
-  if (isDriver) {
-    console.log(isDriver);
-    return (<HeeboText>רזי אתה מלך</HeeboText>)
-  }
+  const createListRowsOfDriver = () => {
+    if (isLoading && !listRowsOfDriverReady) {
+      var driverRequestsList = [];
+
+      if (rides.requests !== undefined && rides.requests.asDriver !== undefined) {
+        rides.requests.asDriver.forEach(request => {
+          driverRequestsList.push(<RequestRow phoneNumber={phoneNumber} requestID={request.requestID} requestData={request.requestData} isDriver={true} />)
+        });
+      }
+
+      setListRowsOfDriver(driverRequestsList);
+      setListRowsOfDriverReady(true);
+      setIsLoading(false);
+    }
+  };
+
+  const createListRowsOfPassenger = () => {
+    if (isLoading && !listRowsOfPassengerReady) {
+      var passengerRequestsList = [];
+
+      if (rides.requests !== undefined && rides.requests.asPassenger !== undefined) {
+        rides.requests.asPassenger.forEach(request => {
+          passengerRequestsList.push(<RequestRow phoneNumber={phoneNumber} requestID={request.requestID} requestData={request.requestData} isDriver={false} />)
+        });
+      }
+
+      setListRowsOfPassenger(passengerRequestsList);
+      setListRowsOfPassengerReady(true);
+    }
+  };
+
+  const getRelevantList = () => {
+    console.log('status of isDriver is ' + isDriver);
+    return isDriver ? listRowsOfDriver : listRowsOfPassenger;
+  };
 
   if (isLoading) {
-    if (!phoneNumberReady) {
-      loadStoredPhoneNumber();
+    if (!listRowsOfPassenger) {
+      createListRowsOfPassenger();
+    } else if (!listRowsOfDriverReady) {
+      createListRowsOfDriver();
     }
-
-    getUserRides({ phoneNumber });
 
     return (
       <View style={styles.lottieContainer}>
@@ -64,53 +98,20 @@ const RidesList = ({ isDriver }) => {
         />
       </View>
     );
-  } else if (listRows != undefined && listRows.length == 0) {
-    return (
-      <View style={styles.lottieContainer}>
-        <LottieView
-          style={styles.lottie}
-          source={require('../../assets/lottie/no-rides-founded.json')}
-          autoPlay
-          loop={false}
-        />
-        <HeeboText style={styles.notFound}>אין לך טרמפים...</HeeboText>
-        <HeeboText style={styles.notFound}>לך חפש!</HeeboText>
-      </View>
-    )
+  } else if (isDriver) {
+    if (listRowsOfDriver != undefined && listRowsOfDriver.length == 0) {
+      return (showNoRides());
+    }
+
+  } else if (listRowsOfPassenger != undefined && listRowsOfPassenger.length == 0) {
+    return (showNoRides());
   }
 
   return (
     <List>
-      {listRows}
+      {getRelevantList()}
     </List>
   );
 };
-
-const createListRows = (rides) => {
-  console.log(rides);
-  if (false) {
-    var listRows = [];
-    const valuesPosition = 1;
-
-    rides.forEach(ride => {
-      var values = ride[valuesPosition]
-
-      listRows.push(<RideRow
-        name={values.driver.name}
-        phoneNumber={values.driver.phoneNumber}
-        source={values.source}
-        destination={values.destination}
-        date={values.dateTime}
-        driverAccepted={values.driver.accepted}
-        passengerAccepted={values.passenger.accepted}
-        rideAccepted={values.accepted}
-      />);
-    });
-
-    return listRows;
-  }
-
-  return [];
-}
 
 export default RidesList;

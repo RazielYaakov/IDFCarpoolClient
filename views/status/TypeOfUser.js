@@ -4,19 +4,22 @@ import { StyleSheet } from 'react-native';
 
 import { HeeboText } from '../../components/HeeboText';
 
-const TypeOfUser = ({handleChange, isDriver}) => {
+const TypeOfUser = ({ handleChange }) => {
     const [isDriverSelected, setDriverSelected] = useState(false);
 
     const handleRadio = (userType) => {
-        if (userType == 'driver' && !isDriverSelected || userType == 'passenger' && isDriverSelected) {
-            setDriverSelected(!isDriverSelected);
-            handleChange(isDriverSelected);
+        if (userType == 'driver' && !isDriverSelected) {
+            setDriverSelected(true);
+            handleChange(true);
+        } else if(userType == 'passenger' && isDriverSelected) {
+            setDriverSelected(false);
+            handleChange(false);
         }
     };
 
     return (
         <CardItem style={styles.cardItem}>
-            <HeeboText style={styles.textDesign} isBold={true}>הצג לי טרמפים בתור</HeeboText>
+            <HeeboText style={styles.textDesign} isBold={true}>הצג לי נסיעות בתור</HeeboText>
             <Radio color={'white'} selectedColor={'white'} selected={!isDriverSelected} onPress={() => handleRadio('passenger')} />
             <HeeboText style={styles.textDesign} isBold={true}>נוסע</HeeboText>
             <Radio color={'white'} selectedColor={'white'} selected={isDriverSelected} onPress={() => handleRadio('driver')} />
@@ -35,6 +38,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'black',
+        opacity: 0.85
     },
     textDesign: {
         marginHorizontal: 5,

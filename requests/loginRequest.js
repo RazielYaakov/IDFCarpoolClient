@@ -9,5 +9,6 @@ export default async (userData) => {
     `&token=${userData.token}`
   );
 
+  console.log(loginResponse.data);
   return loginResponse.data;
 }
