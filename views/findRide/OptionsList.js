@@ -3,7 +3,7 @@ import { Button, Card, CardItem, Icon, List } from 'native-base';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import Toast from 'react-native-simple-toast';
 import { HeeboText } from '../../components/HeeboText';
 import OptionalRow from './OptionalRow';
 
