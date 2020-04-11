@@ -33,7 +33,6 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
     if (isDriverSelected) {
       setPermanentOffer(!isPermanentOffer);
       setValue('isPermanent', isPermanentOffer, true);
-      handleDateChoose(data.dateTime);
     }
   };
 
