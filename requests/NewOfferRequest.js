@@ -8,13 +8,12 @@ export default async (userData) => {
     const permanentStr = userData.isPermanent ? 'True' : 'False';
 
     let newOfferResponse = await axios.post(`${SERVER_URL}/${NEW_RIDE_OFFER_API}?` +
-    `&source=${userData.source}` +
+    `source=${userData.source}` +
     `&destination=${userData.destination}` +
     `&phoneNumber=${userData.phoneNumber}` +
     `&name=${userData.name}` +
     `&isPermanent=${permanentStr}` +
-    `&dateTime=${dateStr}`
-  );
+    `&dateTime=${dateStr}`, null, { timeout: 15000 });
 
   console.log(newOfferResponse.data);
 

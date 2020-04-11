@@ -8,7 +8,7 @@ import Toast from 'react-native-simple-toast';
 import ControlledDateModal from '../../components/ControlledDateModal';
 import ControlledPicker from '../../components/ControlledPicker';
 import { HeeboText } from '../../components/HeeboText';
-import { ALL_CITIES, SUCCESS, FAILURE } from '../../constants/constants';
+import { ALL_CITIES, SUCCESS, OFFER_ALREADY_EXISTS, FAILURE } from '../../constants/constants';
 import newOfferRequest from '../../requests/NewOfferRequest';
 import findRideRequest from '../../requests/sendRideDataRequest';
 
@@ -32,7 +32,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   const handleCheckBox = () => {
     if (isDriverSelected) {
       setPermanentOffer(!isPermanentOffer);
-      setValue('isPermanent', isPermanentOffer, true);
+      setValue('isPermanent', !isPermanentOffer, true);
     }
   };
 
@@ -80,6 +80,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   };
 
   const createNewOffer = async (data) => {
+    console.log(data);
     if (isValidSubmit(data)) {
       const newOfferResponse = await newOfferRequest({
         source: data.source,
@@ -92,6 +93,9 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
 
       if (newOfferResponse == SUCCESS) {
         Toast.showWithGravity('תודה על ההצעה אלוף', Toast.LONG, Toast.CENTER);
+        return;
+      } else if (newOfferResponse == OFFER_ALREADY_EXISTS) {
+        Toast.showWithGravity('כבר הצעת את זה, שכחת?', Toast.LONG, Toast.CENTER);
         return;
       }
 
@@ -167,7 +171,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
             </Button>
           }
           {isDriverSelected && <CardItem style={styles.userTypeItem}>
-            <CheckBox ref={register({ name: 'permanentOffer' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
+            <CheckBox ref={register({ name: 'isPermanent' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
             <HeeboText style={{ marginLeft: 15 }} isBold={true}>הצע באופן קבוע</HeeboText>
           </CardItem>}
           {modalVisible && <View style={styles.centeredView}>
