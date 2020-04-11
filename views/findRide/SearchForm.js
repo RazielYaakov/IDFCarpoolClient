@@ -94,7 +94,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
         destination: data.destination,
         dateTime: data.dateTime,
         isPermanent: data.isPermanentOffer,
-        phoneNumber: data.phoneNumber,
+        phoneNumber: phoneNumber,
         name: userName
       }
 
