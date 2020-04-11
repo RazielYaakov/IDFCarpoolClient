@@ -6,11 +6,11 @@ import { ImageBackground, Modal, StyleSheet, View, Dimensions } from 'react-nati
 import Toast from 'react-native-simple-toast';
 
 import ControlledDateModal from '../../components/ControlledDateModal';
-import ControlledPicker from '../../components/ControlledPicker';
 import { HeeboText } from '../../components/HeeboText';
-import { ALL_CITIES, SUCCESS, FAILURE } from '../../constants/constants';
+import { SUCCESS, FAILURE } from '../../constants/constants';
 import newOfferRequest from '../../requests/NewOfferRequest';
 import findRideRequest from '../../requests/sendRideDataRequest';
+import FilteredPicker from '../../components/FilteredPicker'
 
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 7;
 const { height, width } = Dimensions.get('window');
@@ -32,17 +32,17 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+    setValue('isPermanentOffer', isPermanentOffer, true);
+
     if (timeText != '') {
       setDateTimeText((isPermanentOffer ? 'כל יום ב- ' : dateText + '\t\t') + timeText);
     }
   }, [isPermanentOffer, timeText, dateText]);
 
   const handleCheckBox = () => {
-    if (isDriverSelected) {
-      setPermanentOffer(!isPermanentOffer);
-      setValue('isPermanent', isPermanentOffer, true);
-    }
+    setPermanentOffer(!isPermanentOffer);
   };
+
 
   const handleSource = (chosenSource) => {
     setValue('source', chosenSource, true);
@@ -88,14 +88,16 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
 
   const createNewOffer = async (data) => {
     if (isValidSubmit(data)) {
-      const newOfferResponse = await newOfferRequest({
+      var offer = {
         source: data.source,
         destination: data.destination,
         dateTime: data.dateTime,
-        isPermanent: data.isPermanent,
-        phoneNumber: phoneNumber,
+        isPermanent: data.isPermanentOffer,
+        phoneNumber: data.phoneNumber,
         name: userName
-      });
+      }
+
+      const newOfferResponse = await newOfferRequest(offer);
 
       if (newOfferResponse == SUCCESS) {
         Toast.showWithGravity('תודה על ההצעה אלוף', Toast.LONG, Toast.CENTER);
@@ -110,12 +112,14 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
 
   const findRide = async (data) => {
     if (isValidSubmit(data)) {
-      const findRideResponse = await findRideRequest({
+      var requset = {
         source: data.source,
         destination: data.destination,
         dateTime: data.dateTime,
         phoneNumber: phoneNumber,
-      });
+      };
+
+      const findRideResponse = await findRideRequest(requset);
 
       if (findRideResponse !== FAILURE) {
         Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
@@ -144,13 +148,11 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
           <CardItem style={styles.secondRow}>
             <CardItem style={styles.locationItem}>
               <HeeboText isBold={true}>מאיפה?</HeeboText>
-              <ControlledPicker style={styles.locationPicker} rules={{ required: true }} ref={register({ name: 'source' })} name="source" control={control}
-                options={ALL_CITIES} handlePick={handleSource} />
+              <FilteredPicker handlePick={handleSource} ref={register({ name: 'source' })}/>
             </CardItem>
             <CardItem style={styles.locationItem}>
               <HeeboText isBold={true}> לאן?    </HeeboText>
-              <ControlledPicker style={styles.locationPicker} rules={{ required: true }} ref={register({ name: 'destination' })} name="destination" control={control}
-                options={ALL_CITIES} handlePick={handleDestination} />
+              <FilteredPicker handlePick={handleDestination} ref={register({ name: 'destination' })}/>
             </CardItem>
           </CardItem>
           <CardItem style={styles.thirdRow}>
@@ -174,7 +176,7 @@ const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
             </Button>
           }
           {isDriverSelected && <CardItem style={styles.userTypeItem}>
-            <CheckBox ref={register({ name: 'permanentOffer' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
+            <CheckBox ref={register({ name: 'isPermanentOffer' })} checked={isPermanentOffer && isDriverSelected} color="green" onPress={() => handleCheckBox()} />
             <HeeboText style={{ marginLeft: 15 }} isBold={true}>הצע באופן קבוע</HeeboText>
           </CardItem>}
           {modalVisible && <View style={styles.centeredView}>

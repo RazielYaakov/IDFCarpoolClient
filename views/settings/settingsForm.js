@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { StyleSheet, Text, Button } from 'react-native';
 import ControlledDateModal from '../../components/ControlledDateModal';
 import ControlledPicker from '../../components/ControlledPicker';
-import { ALL_BASES, ALL_CITIES } from '../../constants/constants';
+import { ALL_LOCATIONS } from '../../constants/constants';
 import { Body, Card, CardItem, Form, Icon, Input, Item, Label, Radio, ListItem } from 'native-base';
 import { HeeboText } from '../../components/HeeboText';
 
@@ -62,12 +62,12 @@ export default function StatusForm() {
 
       <CardItem style={styles.cardItem}>
         <Text style={styles.text}>עיר מגורים</Text>
-        <ControlledPicker name="city" control={control} options={ALL_CITIES} />
+        <ControlledPicker name="city" control={control} options={ALL_LOCATIONS} />
       </CardItem>
 
       <CardItem style={styles.cardItem}>
         <Text style={styles.text}>בסיס</Text>
-        <ControlledPicker name="base" control={control} options={ALL_BASES} />
+        <ControlledPicker name="base" control={control} options={ALL_LOCATIONS} />
       </CardItem>
 
 

@@ -1,3 +1,6 @@
+import CITIES from '../assets/jsons/cities.json';
+import BASES from '../assets/jsons/bases.json';
+
 export const LOGIN_ROUTE_NAME = 'Login';
 export const TAB_NAVIGATOR_ROUTE_NAME = 'TabNavigator';
 export const PHONE_LOCAL_STORAGE_NAME = 'phoneNumber';
@@ -19,7 +22,5 @@ export const USER_NAME = 'name';
 export const TOKEN = 'token';
 export const SUCCESS = 'Success';
 export const FAILURE = 'Failure';
-export const ALL_BASES = ["צריפין", "תל השומר", "קריה", "שלישות רמת גן", "עיר הבהדים"];
-export const ALL_CITIES = ["תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון",
-"תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון",
-"תל-אביב", "ירושלים", "נתניה", "חולון", "בת-ים", "אשקלון"];
+export const ALL_LOCATIONS = BASES.concat(CITIES);
+console.log(CITIES)

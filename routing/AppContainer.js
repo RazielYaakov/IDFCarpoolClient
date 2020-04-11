@@ -33,9 +33,9 @@ function TabNavigator() {
 
 export default function StackNavigator({ initialRouteName }) {
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName={initialRouteName}>
-                <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+        <NavigationContainer >
+            <Stack.Navigator initialRouteName={initialRouteName} >
+                <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }}/>
                 <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
             </Stack.Navigator>
         </NavigationContainer>

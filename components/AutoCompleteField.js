@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 
-import { ALL_CITIES } from '../constants/constants';
+import { ALL_LOCATIONS } from '../constants/constants';
 import { HeeboText } from './HeeboText';
 
 const AutoCompleteField = ({ options }) => {
-    const [data, setData] = useState(ALL_CITIES);
+    const [data, setData] = useState(ALL_LOCATIONS);
 
     const updateData = (query) => {
         var remainingElements = [];
-        ALL_CITIES.forEach(cityName => {
+        ALL_LOCATIONS.forEach(cityName => {
             if (cityName.includes(query)) {
                 remainingElements.push(cityName);
             }
