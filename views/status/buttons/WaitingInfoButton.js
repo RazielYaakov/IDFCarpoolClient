@@ -1,41 +1,42 @@
 import { Button, Icon } from 'native-base';
 import React, { Component, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal, StyleSheet, View } from 'react-native';
+import { Modal, StyleSheet, View, Dimensions } from 'react-native';
 
-import { HeeboText } from '../../components/HeeboText';
+import { HeeboText } from '../../../components/HeeboText';
 
-const CancelButton = ({ handleCancel }) => {
+const { height, width } = Dimensions.get('window');
+
+const WaitingInfoButton = ({isDriver}) => {
     const { handleSubmit } = useForm();
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.centeredView}>
-            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { }}>
+            <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <HeeboText isBold={true} style={{color: 'white'}}>אתה בטוח שאתה רוצה לבטל?</HeeboText>
+                        <HeeboText isBold={true} style={{color: 'white'}}>{isDriver? 'מחכה לתשובה מהנוסע...': 'מחכה לתשובה מהנהג...'}</HeeboText>
                         <View style={styles.buttons}>
-                            <Button danger style={styles.closeButton}
-                                onPress={handleSubmit(handleCancel)}>
-                                <HeeboText isBold={true}>כן אחי</HeeboText>
-                            </Button>
                             <Button light style={styles.closeButton} onPress={() => { setModalVisible(false); }}>
-                                <HeeboText isBold={true}  style={{color: '#CD4848'}}>לא, התבלבלתי</HeeboText>
+                                <HeeboText isBold={true} style={{color: '#A68105'}}>סגור</HeeboText>
                             </Button>
                         </View>
                     </View>
                 </View>
             </Modal>
 
-            <Button danger transparent style={styles.buttonStyle} onPress={() => setModalVisible(true)}>
-                <Icon style={styles.icon} name='cancel' type={'MaterialIcons'} />
+            <Button transparent style={styles.buttonStyle} onPress={() => setModalVisible(true)}>
+                <Icon style={styles.icon} name='hour-glass' type={'Entypo'} />
             </Button>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    icon: {
+        color: '#A68105'
+    },
     buttonStyle: {
         width: 80,
         alignSelf: 'center',
@@ -49,9 +50,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalView: {
-        width: '70%',
-        height: '17%',
-        backgroundColor: '#9A4343',
+        width: width * 0.6,
+        height: height * 0.17,
+        backgroundColor: '#A68105',
         alignItems: "center",
         borderRadius: 10,
         shadowColor: "#000",
@@ -75,16 +76,12 @@ const styles = StyleSheet.create({
     closeButton: {
         marginBottom: 15,
         textAlign: "center",
-        color: 'white',
         borderRadius: 15,
         marginHorizontal: 10
     },
     buttons: {
         flexDirection: 'row'
-    },
-    icon:{
-        fontSize: 30,
     }
 });
 
-export default CancelButton;
+export default WaitingInfoButton;

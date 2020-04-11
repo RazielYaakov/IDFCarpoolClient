@@ -1,22 +1,33 @@
 import { Button, Icon } from 'native-base';
 import React, { Component, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal, StyleSheet, View } from 'react-native';
+import { Modal, StyleSheet, View, Dimensions } from 'react-native';
 
-import { HeeboText } from '../../components/HeeboText';
+import { HeeboText } from '../../../components/HeeboText';
 
-const RideAcceptedButton = () => {
+const { height, width } = Dimensions.get('window');
+
+const AcceptButton = ({ handleAccept }) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const handleClickAccept = () => {
+        handleAccept(); 
+        setModalVisible(false)
+    };
 
     return (
         <View style={styles.centeredView}>
             <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <HeeboText isBold={true} style={{color: 'white'}}>הטרמפ אושר!</HeeboText>
+                        <HeeboText isBold={true} style={{ color: 'white' }}>לאשר את הטרמפ?</HeeboText>
                         <View style={styles.buttons}>
-                            <Button light style={styles.closeButton} onPress={() => { setModalVisible(false); }}>
-                                <HeeboText isBold={true} style={{color: '#49A455'}}>סגור</HeeboText>
+                            <Button light style={styles.closeButton}
+                                onPress={ () => handleClickAccept()}>
+                                <HeeboText isBold={true} style={{ color: '#49A455' }}>כן אחי</HeeboText>
+                            </Button>
+                            <Button danger style={styles.closeButton} onPress={() => { setModalVisible(false); }}>
+                                <HeeboText isBold={true}>לא, התבלבלתי</HeeboText>
                             </Button>
                         </View>
                     </View>
@@ -24,7 +35,7 @@ const RideAcceptedButton = () => {
             </Modal>
 
             <Button transparent style={styles.buttonStyle} onPress={() => setModalVisible(true)}>
-                <Icon style={styles.icon} name='checkcircle' type={'AntDesign'} />
+                <Icon style={styles.icon} name='like2' type={'AntDesign'} />
             </Button>
         </View>
     );
@@ -32,7 +43,7 @@ const RideAcceptedButton = () => {
 
 const styles = StyleSheet.create({
     icon: {
-        color: '#05A61A',
+        color: '#05A61A'
     },
     buttonStyle: {
         width: 80,
@@ -46,9 +57,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    
     modalView: {
-        width: '40%',
-        height: '17%',
+        width: width * 0.65,
+        height: height * 0.17,
         backgroundColor: '#49A455',
         alignItems: "center",
         borderRadius: 10,
@@ -81,4 +93,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default RideAcceptedButton;
+export default AcceptButton;

@@ -1,22 +1,21 @@
 import moment from 'moment';
-import { tz } from 'moment-timezone';
 import { Button, Card, CardItem, CheckBox, Container, Icon, Radio } from 'native-base';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TouchableOpacity, ScrollView } from 'react-native';
-import { ImageBackground, Modal, StyleSheet, View } from 'react-native';
+import { ImageBackground, Modal, StyleSheet, View, Dimensions } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
 import ControlledDateModal from '../../components/ControlledDateModal';
 import ControlledPicker from '../../components/ControlledPicker';
 import { HeeboText } from '../../components/HeeboText';
-import { ALL_CITIES } from '../../constants/constants';
+import { ALL_CITIES, SUCCESS, FAILURE } from '../../constants/constants';
 import newOfferRequest from '../../requests/NewOfferRequest';
 import findRideRequest from '../../requests/sendRideDataRequest';
 
 const MAX_DAYS_FROM_TODAY_A_RIDE_CAN_BE_ORDERED = 7;
+const { height, width } = Dimensions.get('window');
 
-const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
+const SearchForm = ({ control, userName, phoneNumber, showOptionsCard }) => {
   const { register, setValue, handleSubmit } = useForm({
     defaultValues: {
       userType: 'passenger',
@@ -29,11 +28,12 @@ const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
   const [isDriverSelected, setDriverSelected] = useState(false);
   const [isPermanentOffer, setPermanentOffer] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   const handleCheckBox = () => {
     if (isDriverSelected) {
       setPermanentOffer(!isPermanentOffer);
       setValue('isPermanent', isPermanentOffer, true);
+      handleDateChoose(data.dateTime);
     }
   };
 
@@ -47,15 +47,21 @@ const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
 
   const handleDateChoose = (chosenDate) => {
     setValue('dateTime', chosenDate, true);
-    
+
     var dateTime = new Date(chosenDate);
     var minutes = dateTime.getMinutes() > 9 ? dateTime.getMinutes() : ('0' + dateTime.getMinutes());
     var hours = dateTime.getHours() > 9 ? dateTime.getHours() : ('0' + dateTime.getHours());
     var time = hours + ':' + minutes;
-    var day = dateTime.getDate() > 9 ? dateTime.getDate() : ('0' + dateTime.getDate());
-    var month = (dateTime.getMonth() + 1) > 9 ? (dateTime.getMonth() + 1) : ('0' + (dateTime.getMonth() + 1));
-    var date = day + '/' + month;
-    setDateTimeText(time + ',  ' + date);
+    console.log(isPermanentOffer);
+    if (!isPermanentOffer) {
+      var day = dateTime.getDate() > 9 ? dateTime.getDate() : ('0' + dateTime.getDate());
+      var month = (dateTime.getMonth() + 1) > 9 ? (dateTime.getMonth() + 1) : ('0' + (dateTime.getMonth() + 1));
+      var date = day + '/' + month;
+      setDateTimeText(time + ',  ' + date);
+      return;
+    }
+
+    setDateTimeText('כל יום ב-' + time);
   };
 
   const handleRadio = (userType) => {
@@ -84,8 +90,13 @@ const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
         phoneNumber: phoneNumber,
         name: userName
       });
-      Toast.showWithGravity('תודה על ההצעה אלוף', Toast.LONG, Toast.CENTER);
-      return;
+
+      if (newOfferResponse == SUCCESS) {
+        Toast.showWithGravity('תודה על ההצעה אלוף', Toast.LONG, Toast.CENTER);
+        return;
+      }
+
+      Toast.showWithGravity('הייתה בעיה קטנה, תציע שוב בבקשה', Toast.LONG, Toast.CENTER);
     }
 
     setModalVisible(true);
@@ -93,23 +104,21 @@ const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
 
   const findRide = async (data) => {
     if (isValidSubmit(data)) {
-      const newOfferResponse = await findRideRequest({
+      const findRideResponse = await findRideRequest({
         source: data.source,
         destination: data.destination,
         dateTime: data.dateTime,
         phoneNumber: phoneNumber,
       });
 
-      Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
-      return;
+      if (findRideResponse !== FAILURE) {
+        Toast.showWithGravity('מחפש לך', Toast.LONG, Toast.CENTER);
+        showOptionsCard(findRideResponse);
+      }   
     }
 
     setModalVisible(true);
   };
-
-  const getSubmitButton = () => {
-    return
-  }
 
   return (
     <Container>
@@ -141,7 +150,7 @@ const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
           <CardItem style={styles.thirdRow}>
             <CardItem style={styles.datePicker}>
               <Button iconRight dark transparent onPress={() => setDateVisibility(true)}>
-                <HeeboText isBold={true} style={{ width: 70, fontSize: 17 }}>מתי?</HeeboText>
+                <HeeboText isBold={true} style={{ fontSize: 17 }}>מתי?</HeeboText>
                 <Icon name='calendar' type={'FontAwesome'} />
               </Button>
               <HeeboText style={{ fontSize: 17, }}>{dateTimeText}</HeeboText>
@@ -177,7 +186,7 @@ const SearchForm = ({ control, onSubmit, userName, phoneNumber }) => {
           <ControlledDateModal
             control={control}
             name='date'
-            mode='datetime'
+            mode={isPermanentOffer ? 'time' : 'datetime'}
             rules={{
               required: true,
               validate: date => date > new Date(),
@@ -205,8 +214,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   searchCard: {
-    width: '85%',
-    height: '52%',
+    width: width * 0.8,
+    height: height * 0.43,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
