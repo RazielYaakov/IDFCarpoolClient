@@ -1,4 +1,5 @@
 import { Body, Button, Card, CardItem, Form, Icon, Input, Item, Label } from 'native-base';
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AsyncStorage, StyleSheet } from 'react-native';
@@ -10,17 +11,12 @@ import Toast from 'react-native-simple-toast';
 
 const CardForm = ({ navigation }) => {
   const { register, setValue, handleSubmit, errors } = useForm();
-  const [isLoginSucceed, setLoginSucceed] = useState(false);
   const onlyHebrewPattern = new RegExp(/^[\u0590-\u05FF '-]+$/i);
   const phoneNumberPattern = new RegExp(/^05\d{8}$/g);
 
   const onSubmit = async (data) => {
     if (dataIsValid(data)) {
       let token = await pushNotificationRegister();
-
-      AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
-      AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, data.name);
-      AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, token);
 
       //send user data to server with token
       var loginRequestResponse = await loginRequest({
@@ -29,26 +25,42 @@ const CardForm = ({ navigation }) => {
         token: token
       });
 
-      if (loginRequestResponse === SUCCESS) {
-        navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
-      } else {
+      console.log(loginRequestResponse);
+      if (loginRequestResponse.phoneNumber !== undefined) {
+        AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
+        AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, loginRequestResponse.name);
+        AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, loginRequestResponse.token);
         Toast.showWithGravity('התחברת בהצלחה!', Toast.LONG, Toast.CENTER);
+        navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
+      } else if (loginRequestResponse === SUCCESS) {
+        AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
+        AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, data.name);
+        AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, token);
+        Toast.showWithGravity('התחברת בהצלחה!', Toast.LONG, Toast.CENTER);
+        navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
       }
 
       return;
-    } 
+    }
 
     Toast.showWithGravity('אחד הפרטים לא תקין', Toast.LONG, Toast.CENTER);
   };
 
   const dataIsValid = data => {
-    return onlyHebrewPattern.test(data.name) && phoneNumberPattern.test(data.phoneNumber);
+    return nameIsValid(data.name) && phoneNumberPattern.test(data.phoneNumber);
+
+  };
+
+  const nameIsValid = name => {
+    if (onlyHebrewPattern.test(name)) {
+      return true;
+    }
+
+    Toast.showWithGravity('השם צריך להיות בעברית (מותר רווחים ומקף)', Toast.LONG, Toast.CENTER);
+    return false;
   }
 
   const handleUserNameChange = (userNameText) => {
-    if (!onlyHebrewPattern.test(userNameText)) {
-      Toast.showWithGravity('השם צריך להיות בעברית (מותר רווחים ומקף)', Toast.LONG, Toast.CENTER);  
-    }
     setValue('name', userNameText, true);
   };
 
@@ -130,5 +142,5 @@ const styles = StyleSheet.create({
   },
   checkIcon: {
     color: 'white',
-  }
+  },
 });

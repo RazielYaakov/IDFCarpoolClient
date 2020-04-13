@@ -11,7 +11,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/playstore.png",
+    "icon": "./assets/images/app-logo.png",
     "splash": {
       "image": "./assets/images/playstore.png",
       "resizeMode": "contain",
