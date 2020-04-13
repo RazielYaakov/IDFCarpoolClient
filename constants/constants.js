@@ -9,6 +9,7 @@ export const TOKEN_LOCAL_STORAGE_NAME = 'token';
 export const SERVER_URL = 'https://idfcarpool.azurewebsites.net';
 export const LOCALHOST_URL = 'http://localhost:5000';
 export const LOGIN_API = 'login';
+export const AUTO_LOGIN_API = 'autologin';
 export const NEW_RIDE_OFFER_API = 'newrideoffer';
 export const FIND_RIDE_API = 'findride';
 export const SHOW_MY_RIDES_API = 'showmyrides';
@@ -24,4 +25,3 @@ export const SUCCESS = 'Success';
 export const OFFER_ALREADY_EXISTS = 'Offer already exists';
 export const FAILURE = 'Failure';
 export const ALL_LOCATIONS = BASES.concat(CITIES);
-console.log(CITIES)

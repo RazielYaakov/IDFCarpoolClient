@@ -8,6 +8,5 @@ export default async (userData) => {
     `&name=${userData.name}` +
     `&token=${userData.token}`, null, { timeout: 10000 });
 
-  console.log(loginResponse.data);
   return loginResponse.data;
 }

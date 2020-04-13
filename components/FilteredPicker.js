@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import ModalFilterPicker from 'react-native-modal-filter-picker'
 import { ALL_LOCATIONS } from '../constants/constants'
-import {HeeboText} from '../components/HeeboText'
-import {Entypo} from '@expo/vector-icons'
+import { HeeboText } from '../components/HeeboText'
+import { Entypo } from '@expo/vector-icons'
 
 const { height, width } = Dimensions.get('window');
 
@@ -13,7 +13,7 @@ export default function FiletredPicker({ handlePick }) {
 
     const onShow = () => {
         setVisible(true);
-    }
+    };
 
     const onSelect = (picked) => {
         setVisible(false);
@@ -28,7 +28,7 @@ export default function FiletredPicker({ handlePick }) {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.textContainer} onPress={onShow}>
-                <Entypo name="select-arrows" size={24}/>
+                <Entypo name="select-arrows" size={24} />
                 <HeeboText style={styles.text}>{picked}</HeeboText>
             </TouchableOpacity>
             <ModalFilterPicker
@@ -42,19 +42,19 @@ export default function FiletredPicker({ handlePick }) {
 }
 
 const styles = StyleSheet.create({
-    text:{
-        fontSize:16,
+    text: {
+        fontSize: 16,
         textAlign: "center",
     },
-    container:{
+    container: {
         marginVertical: height * 0.01,
         justifyContent: 'center'
     },
-    textContainer:{
+    textContainer: {
         paddingVertical: height * 0.005,
         flexDirection: 'row',
         width: width * 0.3,
         borderRadius: 4,
     },
-    
+
 });
