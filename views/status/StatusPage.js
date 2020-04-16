@@ -103,7 +103,7 @@ const StatusPage = () => {
       console.log('loading phoneNumber from cache')
       loadStoredPhoneNumber();
     } else if (!isRidesReady) {
-      console.log('loading userts from server')
+      console.log('loading rides from server')
       getUserRides();
     }
 
