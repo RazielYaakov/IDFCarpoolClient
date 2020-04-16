@@ -29,7 +29,7 @@ const CardForm = ({ navigation }) => {
       if (loginRequestResponse.phoneNumber !== undefined) {
         AsyncStorage.setItem(PHONE_LOCAL_STORAGE_NAME, data.phoneNumber);
         AsyncStorage.setItem(USERNAME_LOCAL_STORAGE_NAME, loginRequestResponse.name);
-        AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, loginRequestResponse.token);
+        AsyncStorage.setItem(TOKEN_LOCAL_STORAGE_NAME, token);
         Toast.showWithGravity('התחברת בהצלחה!', Toast.LONG, Toast.CENTER);
         navigation.navigate(TAB_NAVIGATOR_ROUTE_NAME);
       } else if (loginRequestResponse === SUCCESS) {
